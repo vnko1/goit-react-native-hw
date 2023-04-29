@@ -1,11 +1,11 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import RegistrationScreen from "../screens/auth/RegistrationScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
-import HomeScreen from "../screens/main/homeScreen";
-// import CreatePostsScreen from "../screens/main/createPostsScreen";
+import HomeScreen from "../screens/main/HomeScreen";
+import LogOutButton from "../components/LogOutButton";
 
 const MainStack = createStackNavigator();
-export const router = (isLoged) => {
+export const router = (isLoged, setIsLoged) => {
   if (!isLoged) {
     return (
       <MainStack.Navigator initialRouteName="Registration">
@@ -19,11 +19,6 @@ export const router = (isLoged) => {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
-        {/* <MainStack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        /> */}
       </MainStack.Navigator>
     );
   } else {
@@ -32,7 +27,11 @@ export const router = (isLoged) => {
         <MainStack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: "Публикации" }}
+          options={{
+            headerRightContainerStyle: { padding: 16 },
+            title: "Публикации",
+            headerRight: () => <LogOutButton setIsLoged={setIsLoged} />,
+          }}
         />
       </MainStack.Navigator>
     );

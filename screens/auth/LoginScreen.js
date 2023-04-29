@@ -161,7 +161,7 @@ export default LoginScreen = ({ navigation }) => {
                 }
               >
                 <View style={styles.regBtn}>
-                  <Text style={styles.btnText}>Зарегистрироваться</Text>
+                  <Text style={styles.btnText}>Войти</Text>
                 </View>
               </TouchableOpacity>
             </View>

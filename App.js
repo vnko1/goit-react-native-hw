@@ -19,7 +19,7 @@ export default function App() {
     return null;
   }
 
-  const routing = router(isLoged);
+  const routing = router(isLoged, setIsLoged);
 
   return (
     <UserContext.Provider value={{ isLoged, setIsLoged }}>
