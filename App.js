@@ -1,13 +1,15 @@
 import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
+import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import RegistrationScreen from "./screens/auth/RegistrationScreen";
-import LoginScreen from "./screens/auth/LoginScreen";
 
-const MainStack = createStackNavigator();
+import { router } from "./services/router";
+
+import { UserContext } from "./services/context";
 
 export default function App() {
+  const [isLoged, setIsLoged] = useState(false);
+
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
@@ -17,20 +19,12 @@ export default function App() {
     return null;
   }
 
+  const routing = router(isLoged);
+
   return (
-    <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Registration">
-        <MainStack.Screen
-          name="Registration"
-          component={RegistrationScreen}
-          options={{ headerShown: false }}
-        />
-        <MainStack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-      </MainStack.Navigator>
-    </NavigationContainer>
+    <UserContext.Provider value={{ isLoged, setIsLoged }}>
+      <NavigationContainer>{routing}</NavigationContainer>
+    </UserContext.Provider>
   );
+  // return <CreatePostsScreen />;
 }

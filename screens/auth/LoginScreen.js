@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   ImageBackground,
   Text,
@@ -14,11 +14,13 @@ import {
   Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { user } from "../../services/context";
 import SvgComponent from "../../components/SvgComponent";
 
 const initialValue = { login: "", email: "", password: "" };
 
 export default LoginScreen = ({ navigation }) => {
+  const { setIsLoged } = user();
   const [image, setImage] = useState(null);
   const [inputValue, setInputValue] = useState(initialValue);
   const [hiddenPassword, setHiddenPassword] = useState(true);
@@ -34,6 +36,7 @@ export default LoginScreen = ({ navigation }) => {
     console.log(inputValue);
     hideKeyboard();
     setInputValue(initialValue);
+    setIsLoged(true);
   };
 
   const hideKeyboard = () => {
