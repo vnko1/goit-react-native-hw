@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Platform,
 } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
 
@@ -18,7 +19,7 @@ export default CreatePostsScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.containter}>
-        <KeyboardAvoidingView>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : ""}>
           <View style={styles.contentContainer}>
             <View style={styles.imageContainer}>
               <Image style={{ ...styles.image, width: width - 32 }} />
