@@ -20,8 +20,8 @@ import { user } from "../../services/context";
 const initialValue = { login: "", email: "", password: "" };
 
 export default RegistrationScreen = ({ navigation }) => {
-  const { setIsLoged } = user();
-  const [image, setImage] = useState(null);
+  const { setIsLoged, image, setImage } = user();
+  // const [image, setImage] = useState(null);
   const [inputValue, setInputValue] = useState(initialValue);
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const [keyBoardIsShown, setKeyBoardIsShown] = useState(false);

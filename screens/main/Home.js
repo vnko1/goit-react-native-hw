@@ -1,4 +1,4 @@
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
@@ -20,7 +20,7 @@ export default HomeScreen = () => {
       <Tab.Screen
         name="Posts"
         component={PostsScreen}
-        options={{
+        options={() => ({
           title: "Публикации",
           headerRightContainerStyle: { paddingRight: 16 },
           headerRight: () => <LogOutButton />,
@@ -28,12 +28,13 @@ export default HomeScreen = () => {
           tabBarIcon: ({ _, size }) => (
             <Ionicons name="ios-grid-outline" size={size} color="#212121cc" />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="CreatePosts"
         component={CreatePostsScreen}
         options={({ navigation }) => ({
+          tabBarStyle: { display: "none" },
           title: "Создать публикацию",
           headerLeft: () => (
             <AntDesign
@@ -49,7 +50,6 @@ export default HomeScreen = () => {
             backgroundColor: "#FF6C00",
             marginTop: 9,
             width: 70,
-
             borderRadius: 20,
           },
           tabBarIcon: ({ _, size }) => (
@@ -61,6 +61,7 @@ export default HomeScreen = () => {
         name="Comments"
         component={CommentsScreen}
         options={({ navigation }) => ({
+          tabBarStyle: { display: "none" },
           title: "Комментарии",
           headerLeft: () => (
             <AntDesign
@@ -80,7 +81,3 @@ export default HomeScreen = () => {
     </Tab.Navigator>
   );
 };
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, backgroundColor: "#fff" },
-// });

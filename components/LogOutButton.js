@@ -11,8 +11,7 @@ export default LogOutButton = () => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("Login");
-        // setIsLoged(false);
+        setIsLoged(false);
       }}
     >
       <LogOutIcon />

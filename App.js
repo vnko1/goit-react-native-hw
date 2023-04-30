@@ -9,6 +9,7 @@ import { UserContext } from "./services/context";
 
 export default function App() {
   const [isLoged, setIsLoged] = useState(false);
+  const [image, setImage] = useState(null);
 
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
@@ -22,7 +23,7 @@ export default function App() {
   const routing = router(isLoged, setIsLoged);
 
   return (
-    <UserContext.Provider value={{ isLoged, setIsLoged }}>
+    <UserContext.Provider value={{ isLoged, setIsLoged, image, setImage }}>
       <NavigationContainer>{routing}</NavigationContainer>
     </UserContext.Provider>
   );
