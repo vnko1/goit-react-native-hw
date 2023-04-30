@@ -21,7 +21,7 @@ const initialValue = { login: "", email: "", password: "" };
 
 export default LoginScreen = ({ navigation }) => {
   const { setIsLoged, image, setImage } = user();
-  // const [image, setImage] = useState(null);
+
   const [inputValue, setInputValue] = useState(initialValue);
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const [keyBoardIsShown, setKeyBoardIsShown] = useState(false);

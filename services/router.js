@@ -1,4 +1,3 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator } from "@react-navigation/stack";
 import RegistrationScreen from "../screens/auth/RegistrationScreen";
 import LoginScreen from "../screens/auth/LoginScreen";

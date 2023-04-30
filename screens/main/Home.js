@@ -1,9 +1,5 @@
-import { Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import LogOutButton from "../../components/LogOutButton";
 import CreatePostsScreen from "./CreatePostsScreen";
 import CommentsScreen from "./CommentsScreen";
@@ -14,8 +10,19 @@ const Tab = createBottomTabNavigator();
 export default HomeScreen = () => {
   return (
     <Tab.Navigator
-      tabBarOptions={{ showLabel: false }}
-      screenOptions={{ tabBarIconStyle: { height: 40, marginTop: 9 } }}
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarStyle: [
+          {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+          },
+          null,
+        ],
+        tabBarIconStyle: { height: 40, marginTop: 9 },
+      }}
     >
       <Tab.Screen
         name="Posts"
