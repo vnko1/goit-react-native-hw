@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     // color: "#fff",
     color: "#BDBDBD",
   },
-  deleteBtnContainer: { position: "absolute", bottom: 34 },
+  deleteBtnContainer: { position: "absolute", bottom: 5 },
   deleteBtn: {
     width: 70,
     height: 40,
