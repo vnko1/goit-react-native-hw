@@ -18,6 +18,7 @@ export default HomeScreen = () => {
             justifyContent: "center",
             alignItems: "center",
             alignSelf: "center",
+            marginBottom: 5,
           },
           null,
         ],
