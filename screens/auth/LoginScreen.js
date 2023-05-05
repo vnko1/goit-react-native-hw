@@ -17,7 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 import { user } from "../../services/context";
 import SvgComponent from "../../components/SvgComponent";
 
-const initialValue = { login: "", email: "", password: "" };
+const initialValue = { email: "", password: "" };
 
 export default LoginScreen = ({ navigation }) => {
   const { setIsLoged, image, setImage } = user();

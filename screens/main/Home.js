@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import LogOutButton from "../../components/LogOutButton";
 import CreatePostsScreen from "./CreatePostsScreen";
-import CommentsScreen from "./CommentsScreen";
+import ProfileScreen from "./ProfileScreen";
 import PostsScreen from "./PostsScreen";
 
 const Tab = createBottomTabNavigator();
@@ -29,10 +29,7 @@ export default HomeScreen = () => {
         name="Posts"
         component={PostsScreen}
         options={() => ({
-          title: "Публикации",
-          headerRightContainerStyle: { paddingRight: 16 },
-          headerRight: () => <LogOutButton />,
-          headerTitleContainerStyle: { paddingLeft: 16 },
+          headerShown: false,
           tabBarIcon: ({ _, size }) => (
             <Ionicons name="ios-grid-outline" size={size} color="#212121cc" />
           ),
@@ -67,7 +64,7 @@ export default HomeScreen = () => {
       />
       <Tab.Screen
         name="Comments"
-        component={CommentsScreen}
+        component={ProfileScreen}
         options={({ navigation }) => ({
           tabBarStyle: { display: "none" },
           title: "Комментарии",
