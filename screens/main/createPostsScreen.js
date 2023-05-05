@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   View,
   Text,
@@ -16,6 +17,14 @@ import { Entypo, Feather } from "@expo/vector-icons";
 
 export default CreatePostsScreen = () => {
   const { width } = useWindowDimensions();
+  const [camera, setCamera] = useState(null);
+  const [image, setImage] = useState(null);
+
+  const takePhoto = async () => {
+    const photo = await camera.takePictureAsync();
+    setImage(photo.uri);
+    console.log(image);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -23,13 +32,20 @@ export default CreatePostsScreen = () => {
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : ""}>
           <View style={styles.contentContainer}>
             <View style={styles.imageContainer}>
-              <Image style={{ ...styles.image, width: width - 32 }} />
-              <TouchableOpacity
-                onPress={() => console.log("btn")}
-                style={styles.iconContainer}
+              <Camera
+                style={{ ...styles.image, width: width - 32 }}
+                ref={setCamera}
               >
-                <Entypo name="camera" size={24} color="#BDBDBD" />
-              </TouchableOpacity>
+                {image && (
+                  <Image style={styles.image} source={{ uri: image }} />
+                )}
+                <TouchableOpacity
+                  onPress={takePhoto}
+                  style={styles.iconContainer}
+                >
+                  <Entypo name="camera" size={24} color="#BDBDBD" />
+                </TouchableOpacity>
+              </Camera>
             </View>
             <Text style={styles.imageText}>Загрузите фото</Text>
             <View style={styles.form}>
@@ -62,11 +78,7 @@ export default CreatePostsScreen = () => {
           <TouchableOpacity
             onPress={() => console.log("btn")}
             activeOpacity={0.8}
-            // disabled={
-            //   inputValue.email !== "" && inputValue.password !== ""
-            //     ? false
-            //     : true
-            // }
+            disabled={image ? false : true}
           >
             <View style={styles.btn}>
               <Text style={styles.btnText}>Опубликовать</Text>
@@ -149,7 +161,7 @@ const styles = StyleSheet.create({
     // color: "#fff",
     color: "#BDBDBD",
   },
-  deleteBtnContainer: { position: "absolute", bottom: 5 },
+  deleteBtnContainer: { position: "absolute", bottom: 30 },
   deleteBtn: {
     width: 70,
     height: 40,

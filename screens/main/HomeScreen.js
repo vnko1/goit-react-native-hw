@@ -9,6 +9,9 @@ const Tab = createBottomTabNavigator();
 
 export default HomeScreen = () => {
   const { navigationRef } = user();
+  const showTabBar =
+    navigationRef.getCurrentRoute().name === "Home" ||
+    navigationRef.getCurrentRoute().name === "InitialPostsScreen";
 
   return (
     <Tab.Navigator
@@ -32,13 +35,8 @@ export default HomeScreen = () => {
         component={PostsScreen}
         options={() => ({
           tabBarStyle: {
-            display:
-              navigationRef.getCurrentRoute().name === "InitialPostsScreen"
-                ? null
-                : "none",
+            display: showTabBar ? null : "none",
           },
-          tabBarVisible:
-            navigationRef.getCurrentRoute().name === "InitialPostsScreen",
           headerShown: false,
           tabBarIcon: ({ _, size }) => (
             <Ionicons name="ios-grid-outline" size={size} color="#212121cc" />

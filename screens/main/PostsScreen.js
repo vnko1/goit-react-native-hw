@@ -1,8 +1,10 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { user } from "../../services/context";
+import { AntDesign } from "@expo/vector-icons";
 import InitialPostsScreen from "./nestedScreens/InitialPostsScreen";
 import MapScreen from "./nestedScreens/MapScreen";
 import CommentsScreen from "./nestedScreens/CommentsScreen";
+import LogOutButton from "../../components/LogOutButton";
+
 const NestedStack = createStackNavigator();
 
 export default PostsScreen = () => {
@@ -21,15 +23,35 @@ export default PostsScreen = () => {
       <NestedStack.Screen
         name="Map"
         component={MapScreen}
-        options={() => ({
+        options={({ navigation }) => ({
           title: "Карты",
+          headerLeft: () => (
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color="#212121cc"
+              onPress={() => navigation.goBack()}
+            />
+          ),
+          headerLeftContainerStyle: { paddingLeft: 16 },
+          headerTitleContainerStyle: { paddingRight: 16 },
         })}
       />
       <NestedStack.Screen
         name="Comments"
         component={CommentsScreen}
-        options={() => ({
+        options={({ navigation }) => ({
           title: "Комментарии",
+          headerLeft: () => (
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color="#212121cc"
+              onPress={() => navigation.goBack()}
+            />
+          ),
+          headerLeftContainerStyle: { paddingLeft: 16 },
+          headerTitleContainerStyle: { paddingRight: 16 },
         })}
       />
     </NestedStack.Navigator>
