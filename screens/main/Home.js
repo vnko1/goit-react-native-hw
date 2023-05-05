@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import LogOutButton from "../../components/LogOutButton";
+import { user } from "../../services/context";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import PostsScreen from "./PostsScreen";
@@ -8,6 +8,8 @@ import PostsScreen from "./PostsScreen";
 const Tab = createBottomTabNavigator();
 
 export default HomeScreen = () => {
+  const { navigationRef } = user();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -29,6 +31,14 @@ export default HomeScreen = () => {
         name="Posts"
         component={PostsScreen}
         options={() => ({
+          tabBarStyle: {
+            display:
+              navigationRef.getCurrentRoute().name === "InitialPostsScreen"
+                ? null
+                : "none",
+          },
+          tabBarVisible:
+            navigationRef.getCurrentRoute().name === "InitialPostsScreen",
           headerShown: false,
           tabBarIcon: ({ _, size }) => (
             <Ionicons name="ios-grid-outline" size={size} color="#212121cc" />

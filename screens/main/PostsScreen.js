@@ -1,4 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { user } from "../../services/context";
 import InitialPostsScreen from "./nestedScreens/InitialPostsScreen";
 import MapScreen from "./nestedScreens/MapScreen";
 import CommentsScreen from "./nestedScreens/CommentsScreen";
@@ -8,7 +9,7 @@ export default PostsScreen = () => {
   return (
     <NestedStack.Navigator>
       <NestedStack.Screen
-        name="DefaultPostsScreen"
+        name="InitialPostsScreen"
         component={InitialPostsScreen}
         options={() => ({
           title: "Публикации",

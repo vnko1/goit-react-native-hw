@@ -1,13 +1,17 @@
 import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
 
 import { router } from "./services/router";
 
 import { UserContext } from "./services/context";
 
 export default function App() {
+  const navigationRef = useNavigationContainerRef();
   const [isLoged, setIsLoged] = useState(false);
   const [image, setImage] = useState(null);
 
@@ -23,8 +27,10 @@ export default function App() {
   const routing = router(isLoged, setIsLoged);
 
   return (
-    <UserContext.Provider value={{ isLoged, setIsLoged, image, setImage }}>
-      <NavigationContainer>{routing}</NavigationContainer>
+    <UserContext.Provider
+      value={{ isLoged, setIsLoged, image, setImage, navigationRef }}
+    >
+      <NavigationContainer ref={navigationRef}>{routing}</NavigationContainer>
     </UserContext.Provider>
   );
   // return <CreatePostsScreen />;
