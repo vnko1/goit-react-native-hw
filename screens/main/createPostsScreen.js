@@ -11,6 +11,7 @@ import {
   Keyboard,
   Platform,
 } from "react-native";
+import { Camera } from "expo-camera";
 import { Entypo, Feather } from "@expo/vector-icons";
 
 export default CreatePostsScreen = () => {
