@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -17,35 +17,45 @@ import { Entypo, Feather } from "@expo/vector-icons";
 
 export default CreatePostsScreen = () => {
   const { width } = useWindowDimensions();
+  const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
     setImage(photo.uri);
     console.log(image);
   };
-
+  console.log(hasPermission);
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.containter}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : ""}>
           <View style={styles.contentContainer}>
             <View style={styles.imageContainer}>
-              <Camera
-                style={{ ...styles.image, width: width - 32 }}
-                ref={setCamera}
-              >
-                {image && (
-                  <Image style={styles.image} source={{ uri: image }} />
-                )}
-                <TouchableOpacity
-                  onPress={takePhoto}
-                  style={styles.iconContainer}
+              {hasPermission && (
+                <Camera
+                  style={{ ...styles.image, width: width - 32 }}
+                  ref={setCamera}
                 >
-                  <Entypo name="camera" size={24} color="#BDBDBD" />
-                </TouchableOpacity>
-              </Camera>
+                  {image && (
+                    <Image style={styles.image} source={{ uri: image }} />
+                  )}
+                  <TouchableOpacity
+                    onPress={takePhoto}
+                    style={styles.iconContainer}
+                  >
+                    <Entypo name="camera" size={24} color="#BDBDBD" />
+                  </TouchableOpacity>
+                </Camera>
+              )}
             </View>
             <Text style={styles.imageText}>Загрузите фото</Text>
             <View style={styles.form}>
