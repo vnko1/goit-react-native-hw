@@ -13,18 +13,28 @@ import {
   Platform,
 } from "react-native";
 import { Camera } from "expo-camera";
+import * as Location from "expo-location";
 import { Entypo, Feather } from "@expo/vector-icons";
 
 export default CreatePostsScreen = () => {
   const { width } = useWindowDimensions();
-  const [hasPermission, setHasPermission] = useState(null);
+  const [hasPermission, setHasPermission] = useState({
+    location: null,
+    camera: null,
+  });
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
+  const [inputValue, setInputValue] = useState({ title: "", region: "" });
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === "granted");
+      const { status: cameraPermission } =
+        await Camera.requestCameraPermissionsAsync();
+
+      setHasPermission((state) => ({
+        ...state,
+        camera: cameraPermission === "granted",
+      }));
     })();
   }, []);
 
@@ -32,12 +42,17 @@ export default CreatePostsScreen = () => {
     const photo = await camera.takePictureAsync();
     setImage(photo.uri);
     console.log(image);
+    const location = await Location.getCurrentPositionAsync();
+    console.log("latitude", location.coords.latitude);
   };
   console.log(hasPermission);
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.containter}>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : ""}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : ""}
+          style={{ marginTop: 10 }}
+        >
           <View style={styles.contentContainer}>
             <View style={styles.imageContainer}>
               {hasPermission && (
@@ -57,10 +72,19 @@ export default CreatePostsScreen = () => {
                 </Camera>
               )}
             </View>
-            <Text style={styles.imageText}>Загрузите фото</Text>
+            <Text style={styles.imageText}>
+              {image ? "Редактировать" : "Загрузите фото"}
+            </Text>
             <View style={styles.form}>
               <View style={styles.inputContainer}>
-                <TextInput placeholder="Название..." style={styles.input} />
+                <TextInput
+                  placeholder="Название..."
+                  style={styles.input}
+                  onChangeText={(value) =>
+                    setInputValue((state) => ({ ...state, title: value }))
+                  }
+                  value={inputValue.title}
+                />
               </View>
               <View
                 style={{
@@ -73,6 +97,10 @@ export default CreatePostsScreen = () => {
                 <TextInput
                   placeholder="Местность..."
                   style={{ ...styles.input, paddingLeft: 28 }}
+                  onChangeText={(value) =>
+                    setInputValue((state) => ({ ...state, region: value }))
+                  }
+                  value={inputValue.region}
                 />
                 <Feather
                   name="map-pin"
@@ -97,7 +125,7 @@ export default CreatePostsScreen = () => {
         </View>
         <View style={styles.deleteBtnContainer}>
           <TouchableOpacity
-            onPress={() => console.log("btn")}
+            onPress={() => setImage(null)}
             style={styles.deleteBtn}
           >
             <Feather name="trash-2" size={24} color="#BDBDBD" />
@@ -123,6 +151,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#E8E8E8",
+    overflow: "hidden",
   },
   iconContainer: {
     position: "absolute",
@@ -151,7 +180,8 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
-    color: "#BDBDBD",
+    // color: "#BDBDBD",
+    color: "#212121",
   },
   inputIcon: { position: "absolute", top: "25%", left: 0 },
   btnContainer: { width: "100%" },
