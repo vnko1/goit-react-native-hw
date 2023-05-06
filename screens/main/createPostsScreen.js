@@ -18,34 +18,27 @@ import { Entypo, Feather } from "@expo/vector-icons";
 
 export default CreatePostsScreen = () => {
   const { width } = useWindowDimensions();
-  const [hasPermission, setHasPermission] = useState({
-    location: null,
-    camera: null,
-  });
+  const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [inputValue, setInputValue] = useState({ title: "", region: "" });
 
   useEffect(() => {
     (async () => {
-      const { status: cameraPermission } =
-        await Camera.requestCameraPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
 
-      setHasPermission((state) => ({
-        ...state,
-        camera: cameraPermission === "granted",
-      }));
+      setHasPermission(status === "granted");
     })();
   }, []);
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
     setImage(photo.uri);
-    console.log(image);
+
     const location = await Location.getCurrentPositionAsync();
-    console.log("latitude", location.coords.latitude);
+    console.log("latitude", location);
   };
-  console.log(hasPermission);
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.containter}>
