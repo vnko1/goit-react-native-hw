@@ -27,7 +27,7 @@ export default Post = ({ image, title, region, coords }) => {
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
           onPress={() => {
-            navigation.navigate("Map", { coords });
+            navigation.navigate("Map", { coords, title });
           }}
         >
           <View style={styles.locationContainer}>
