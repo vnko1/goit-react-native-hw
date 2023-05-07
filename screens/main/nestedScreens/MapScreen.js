@@ -7,7 +7,7 @@ export default MapScreen = ({ route: { params } }) => {
       <MapView
         style={styles.map}
         mapType="standard"
-        minZoomLevel={10}
+        minZoomLevel={2}
         region={{
           latitude: params.coords.latitude,
           longitude: params.coords.longitude,

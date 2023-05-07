@@ -172,7 +172,11 @@ export default CreatePostsScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.deleteBtnContainer}>
-          <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
+          <TouchableOpacity
+            onPress={onDelete}
+            style={styles.deleteBtn}
+            disabled={isLoading}
+          >
             <Feather name="trash-2" size={24} color="#BDBDBD" />
           </TouchableOpacity>
         </View>
