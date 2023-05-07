@@ -1,6 +1,16 @@
-import { Image, StyleSheet, Text, View, Button } from "react-native";
+import { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, View, Button, FlatList } from "react-native";
+import Post from "../../../components/Post";
 
-export default InitialPostsScreen = ({ navigation }) => {
+export default InitialPostsScreen = ({ navigation, route }) => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    if (route.params) {
+      setPosts((state) => [...state, route.params]);
+    }
+  }, [route.params]);
+
   return (
     <View style={styles.container}>
       <View style={styles.user}>
@@ -15,10 +25,19 @@ export default InitialPostsScreen = ({ navigation }) => {
           <Text style={styles.userInfoMail}>User e-mail</Text>
         </View>
       </View>
-      <Button onPress={() => navigation.navigate("Map")} title="Карти" />
-      <Button
-        onPress={() => navigation.navigate("Comments")}
-        title="Comments"
+      <FlatList
+        data={posts}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item }) => {
+          return (
+            <Post
+              image={item.image}
+              title={item.titleValue}
+              region={item.regionValue}
+              coords={item.coords}
+            />
+          );
+        }}
       />
     </View>
   );
@@ -26,25 +45,8 @@ export default InitialPostsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
     backgroundColor: "#fff",
-  },
-  titleBox: {
-    margin: 0,
-    alignItems: "center",
-    backgroundColor: "#fff",
-    height: 88,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(0,0,0,0.3)",
-  },
-  header: {
-    height: 22,
-    fontWeight: "500",
-    fontSize: 17,
-    color: "#212121",
-    marginTop: 55,
-    marginBottom: 11,
   },
   user: {
     flexDirection: "row",
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     width: 170,
     height: 60,
+    marginBottom: 32,
   },
   userImage: {
     resizeMode: "contain",
@@ -72,12 +75,28 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 11,
   },
-  footer: {
-    borderTopWidth: 1,
-    borderTopColor: "rgba(0,0,0,0.3)",
-    width: "100%",
-    height: 83,
-    position: "absolute",
-    bottom: 0,
-  },
+  // titleBox: {
+  //   margin: 0,
+  //   alignItems: "center",
+  //   backgroundColor: "#fff",
+  //   height: 88,
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: "rgba(0,0,0,0.3)",
+  // },
+  // header: {
+  //   height: 22,
+  //   fontWeight: "500",
+  //   fontSize: 17,
+  //   color: "#212121",
+  //   marginTop: 55,
+  //   marginBottom: 11,
+  // },
+  // footer: {
+  //   borderTopWidth: 1,
+  //   borderTopColor: "rgba(0,0,0,0.3)",
+  //   width: "100%",
+  //   height: 83,
+  //   position: "absolute",
+  //   bottom: 0,
+  // },
 });

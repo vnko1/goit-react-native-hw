@@ -11,44 +11,86 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as Location from "expo-location";
 import { Entypo, Feather } from "@expo/vector-icons";
 
-export default CreatePostsScreen = () => {
+export default CreatePostsScreen = ({ navigation }) => {
   const { width } = useWindowDimensions();
-  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraPermission, setHasCameraPermission] = useState(null);
+  const [locationPermission, setHasLocationPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
-  const [inputValue, setInputValue] = useState({ title: "", region: "" });
+  const [titleValue, setTitleValue] = useState(null);
+  const [regionValue, setRegionValue] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const submitBtnDisabled = image && titleValue && regionValue ? false : true;
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-
-      setHasPermission(status === "granted");
+      const { status: cameraStatus } =
+        await Camera.requestCameraPermissionsAsync();
+      setHasCameraPermission(cameraStatus === "granted");
+      const { status: locationStatus } =
+        await Location.requestForegroundPermissionsAsync();
+      setHasLocationPermission(locationStatus === "granted");
     })();
   }, []);
 
   const takePhoto = async () => {
+    setIsLoading(true);
     const photo = await camera.takePictureAsync();
     setImage(photo.uri);
+    if (locationPermission) {
+      const position = await Location.getCurrentPositionAsync();
+      const place = await Location.reverseGeocodeAsync({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      setRegionValue(`${place[0].region}, ${place[0].country}`);
+    }
+    setIsLoading(false);
+  };
 
-    const location = await Location.getCurrentPositionAsync();
-    console.log("latitude", location);
+  const onSubmit = async () => {
+    setIsLoading(true);
+    if (locationPermission) {
+      const position = await Location.getCurrentPositionAsync();
+      navigation.navigate("InitialPostsScreen", {
+        image,
+        titleValue,
+        regionValue,
+        coords: {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        },
+      });
+    } else {
+      navigation.navigate("InitialPostsScreen", {
+        image,
+        titleValue,
+        regionValue,
+      });
+    }
+    setIsLoading(false);
+    onDelete();
+  };
+
+  const onDelete = () => {
+    setImage(null);
+    setTitleValue(null);
+    setRegionValue(null);
   };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.containter}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : ""}
-          style={{ marginTop: 10 }}
-        >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : ""}>
           <View style={styles.contentContainer}>
             <View style={styles.imageContainer}>
-              {hasPermission && (
+              {cameraPermission && (
                 <Camera
                   style={{ ...styles.image, width: width - 32 }}
                   ref={setCamera}
@@ -59,6 +101,7 @@ export default CreatePostsScreen = () => {
                   <TouchableOpacity
                     onPress={takePhoto}
                     style={styles.iconContainer}
+                    disabled={isLoading}
                   >
                     <Entypo name="camera" size={24} color="#BDBDBD" />
                   </TouchableOpacity>
@@ -73,10 +116,8 @@ export default CreatePostsScreen = () => {
                 <TextInput
                   placeholder="Название..."
                   style={styles.input}
-                  onChangeText={(value) =>
-                    setInputValue((state) => ({ ...state, title: value }))
-                  }
-                  value={inputValue.title}
+                  onChangeText={(value) => setTitleValue(value)}
+                  value={titleValue}
                 />
               </View>
               <View
@@ -90,10 +131,12 @@ export default CreatePostsScreen = () => {
                 <TextInput
                   placeholder="Местность..."
                   style={{ ...styles.input, paddingLeft: 28 }}
-                  onChangeText={(value) =>
-                    setInputValue((state) => ({ ...state, region: value }))
-                  }
-                  value={inputValue.region}
+                  value={regionValue}
+                  onChangeText={(value) => {
+                    if (!locationPermission) {
+                      setRegionValue(value);
+                    }
+                  }}
                 />
                 <Feather
                   name="map-pin"
@@ -107,23 +150,33 @@ export default CreatePostsScreen = () => {
         </KeyboardAvoidingView>
         <View style={styles.btnContainer}>
           <TouchableOpacity
-            onPress={() => console.log("btn")}
+            onPress={onSubmit}
             activeOpacity={0.8}
-            disabled={image ? false : true}
+            disabled={submitBtnDisabled}
           >
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>Опубликовать</Text>
+            <View
+              style={{
+                ...styles.btn,
+                backgroundColor: !submitBtnDisabled ? "#FF6C00" : "#F6F6F6",
+              }}
+            >
+              <Text
+                style={{
+                  ...styles.btnText,
+                  color: !submitBtnDisabled ? "#fff" : "#BDBDBD",
+                }}
+              >
+                Опубликовать
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
         <View style={styles.deleteBtnContainer}>
-          <TouchableOpacity
-            onPress={() => setImage(null)}
-            style={styles.deleteBtn}
-          >
+          <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
             <Feather name="trash-2" size={24} color="#BDBDBD" />
           </TouchableOpacity>
         </View>
+        {isLoading && <ActivityIndicator size="large" style={styles.loader} />}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -136,6 +189,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     position: "relative",
   },
+  loader: { position: "absolute", top: "40%" },
   contentContainer: { marginHorizontal: 16 },
   imageContainer: { position: "relative", marginTop: 32 },
   image: {
@@ -173,14 +227,12 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
-    // color: "#BDBDBD",
+
     color: "#212121",
   },
   inputIcon: { position: "absolute", top: "25%", left: 0 },
   btnContainer: { width: "100%" },
   btn: {
-    // backgroundColor: "#FF6C00",
-    backgroundColor: "#F6F6F6",
     paddingTop: 16,
     paddingBottom: 16,
     borderRadius: 100,
@@ -191,7 +243,7 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
-    // color: "#fff",
+
     color: "#BDBDBD",
   },
   deleteBtnContainer: { position: "absolute", bottom: 30 },
