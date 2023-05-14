@@ -1,11 +1,12 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { downloadPhotoFromServer, uploadPhotoToServer } from "../firebase";
-import { signIn } from "./authSlice";
+import { signInInProgress, signInSuccess, signInError } from "./authSlice";
 
 export const registerUser =
   ({ email, password, name, image }) =>
   async (dispatch, getState) => {
+    dispatch(signInInProgress());
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
@@ -31,10 +32,10 @@ export const registerUser =
           uid: user.uid,
           accessToken,
         };
-        console.log(userState);
-        dispatch(signIn(userState));
+
+        dispatch(signInSuccess(userState));
       }
     } catch (error) {
-      console.log(error.message);
+      dispatch(signInError(error.message));
     }
   };
