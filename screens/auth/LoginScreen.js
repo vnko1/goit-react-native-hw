@@ -20,12 +20,12 @@ import SvgComponent from "../../components/SvgComponent";
 const initialValue = { email: "", password: "" };
 
 export default LoginScreen = ({ navigation }) => {
-  const { setIsLoged, image, setImage } = user();
+  const { setIsLoged } = user();
 
   const [inputValue, setInputValue] = useState(initialValue);
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const [keyBoardIsShown, setKeyBoardIsShown] = useState(false);
-  const [imageIsLoaded, setImageIsLoaded] = useState(false);
+
   const [focus, setFocus] = useState({
     login: false,
     email: false,
@@ -44,20 +44,6 @@ export default LoginScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setImageIsLoaded(true);
-    }
-  };
-
   return (
     <TouchableWithoutFeedback onPress={hideKeyboard}>
       <View style={styles.container}>
@@ -70,15 +56,14 @@ export default LoginScreen = ({ navigation }) => {
             style={styles.form}
           >
             <View style={styles.imageContainer}>
-              <Image style={styles.image} source={{ uri: image }} />
+              <Image style={styles.image} />
               <Pressable
                 style={{
                   ...styles.imageIcon,
-                  borderColor: imageIsLoaded ? "#BDBDBD" : "#FF6C00",
+                  borderColor: "#FF6C00",
                 }}
-                onPress={() => pickImage(imageIsLoaded, setImageIsLoaded)}
               >
-                <SvgComponent imageIsLoaded={imageIsLoaded} />
+                <SvgComponent />
               </Pressable>
             </View>
             <Text style={styles.title}>Войти</Text>
@@ -176,7 +161,9 @@ export default LoginScreen = ({ navigation }) => {
                 style={styles.link}
                 onPress={() => navigation.navigate("Registration")}
               >
-                <Text style={styles.linkText}>Уже есть аккаунт? Войти</Text>
+                <Text style={styles.linkText}>
+                  Нет аккаунта? Зарегистрироваться
+                </Text>
               </Pressable>
             </View>
           </View>

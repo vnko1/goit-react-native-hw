@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ImageBackground,
   Text,
@@ -13,49 +13,42 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+
 import SvgComponent from "../../components/SvgComponent";
 import { user } from "../../services/context";
+import { reg } from "../../redux/operations";
 
-const initialValue = { login: "", email: "", password: "" };
+const initialValue = { name: "", email: "", password: "" };
 
-export default RegistrationScreen = ({ navigation }) => {
-  const { setIsLoged, image, setImage } = user();
-  // const [image, setImage] = useState(null);
+export default RegistrationScreen = ({ navigation, route }) => {
+  const { setIsLoged } = user();
+  const [image, setImage] = useState(null);
   const [inputValue, setInputValue] = useState(initialValue);
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const [keyBoardIsShown, setKeyBoardIsShown] = useState(false);
-  const [imageIsLoaded, setImageIsLoaded] = useState(false);
+
+  useEffect(() => {
+    if (route.params) setImage(route.params.image);
+  }, [route.params]);
+
   const [focus, setFocus] = useState({
-    login: false,
+    name: false,
     email: false,
     password: false,
   });
 
-  const onPressBtn = () => {
-    console.log(inputValue);
+  const onPressBtn = async () => {
+    // console.log(inputValue);
+    const { email, password, name } = inputValue;
+    await reg({ email, password, name, image });
     hideKeyboard();
     setInputValue(initialValue);
-    setIsLoged(true);
+    // setIsLoged(true);
   };
 
   const hideKeyboard = () => {
     setKeyBoardIsShown(false);
     Keyboard.dismiss();
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setImageIsLoaded(true);
-    }
   };
 
   return (
@@ -70,15 +63,24 @@ export default RegistrationScreen = ({ navigation }) => {
             style={styles.form}
           >
             <View style={styles.imageContainer}>
-              <Image style={styles.image} source={{ uri: image }} />
+              <Image
+                style={styles.image}
+                source={{ uri: image, cache: "reload" }}
+              />
               <Pressable
                 style={{
                   ...styles.imageIcon,
-                  borderColor: imageIsLoaded ? "#BDBDBD" : "#FF6C00",
+                  borderColor: image ? "#BDBDBD" : "#FF6C00",
                 }}
-                onPress={() => pickImage(imageIsLoaded, setImageIsLoaded)}
+                onPress={() => {
+                  if (!image) {
+                    navigation.navigate("Camera");
+                  } else {
+                    setImage(null);
+                  }
+                }}
               >
-                <SvgComponent imageIsLoaded={imageIsLoaded} />
+                <SvgComponent imageIsLoaded={image} />
               </Pressable>
             </View>
             <Text style={styles.title}>Регистрация</Text>
@@ -86,25 +88,25 @@ export default RegistrationScreen = ({ navigation }) => {
               <TextInput
                 style={{
                   ...styles.input,
-                  backgroundColor: focus.login ? "#fff" : "#F6F6F6",
-                  borderColor: focus.login ? "#FF6C00" : "#E8E8E8",
+                  backgroundColor: focus.name ? "#fff" : "#F6F6F6",
+                  borderColor: focus.name ? "#FF6C00" : "#E8E8E8",
                 }}
                 placeholder={"Логин"}
                 onBlur={() => {
-                  setFocus((state) => ({ ...state, login: false }));
+                  setFocus((state) => ({ ...state, name: false }));
                   setKeyBoardIsShown(false);
                 }}
                 onFocus={() => {
-                  setFocus((state) => ({ ...state, login: true }));
+                  setFocus((state) => ({ ...state, name: true }));
                   setKeyBoardIsShown(true);
                 }}
                 onChangeText={(value) =>
                   setInputValue((prevState) => ({
                     ...prevState,
-                    login: value,
+                    name: value,
                   }))
                 }
-                value={inputValue.login}
+                value={inputValue.name}
               ></TextInput>
             </View>
             <View style={{ ...styles.inputContainer, marginBottom: 16 }}>
@@ -179,13 +181,13 @@ export default RegistrationScreen = ({ navigation }) => {
               <TouchableOpacity
                 onPress={onPressBtn}
                 activeOpacity={0.8}
-                disabled={
-                  inputValue.login !== "" &&
-                  inputValue.email !== "" &&
-                  inputValue.password !== ""
-                    ? false
-                    : true
-                }
+                // disabled={
+                //   inputValue.name !== "" &&
+                //   inputValue.email !== "" &&
+                //   inputValue.password !== ""
+                //     ? false
+                //     : true
+                // }
               >
                 <View style={styles.regBtn}>
                   <Text style={styles.btnText}>Зарегистрироваться</Text>

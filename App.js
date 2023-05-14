@@ -5,10 +5,11 @@ import {
   NavigationContainer,
   useNavigationContainerRef,
 } from "@react-navigation/native";
+import { Provider } from "react-redux";
 
 import { router } from "./services/router";
-
 import { UserContext } from "./services/context";
+import { store } from "./redux/store";
 
 export default function App() {
   const navigationRef = useNavigationContainerRef();
@@ -27,11 +28,12 @@ export default function App() {
   const routing = router(isLoged, setIsLoged);
 
   return (
-    <UserContext.Provider
-      value={{ isLoged, setIsLoged, image, setImage, navigationRef }}
-    >
-      <NavigationContainer ref={navigationRef}>{routing}</NavigationContainer>
-    </UserContext.Provider>
+    <Provider store={store}>
+      <UserContext.Provider
+        value={{ isLoged, setIsLoged, image, setImage, navigationRef }}
+      >
+        <NavigationContainer ref={navigationRef}>{routing}</NavigationContainer>
+      </UserContext.Provider>
+    </Provider>
   );
-  // return <CreatePostsScreen />;
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-const SvgComponent = ({ imageIsLoaded }) => (
+const SvgComponent = ({ imageIsLoaded = false }) => (
   <Svg
     width={13}
     height={13}

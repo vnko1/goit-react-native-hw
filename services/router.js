@@ -2,6 +2,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import RegistrationScreen from "../screens/auth/RegistrationScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
 import HomeScreen from "../screens/main/HomeScreen";
+import CameraScreen from "../screens/auth/CameraScreen";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 const MainStack = createStackNavigator();
 
@@ -18,6 +20,23 @@ export const router = (isLoged) => {
           name="Registration"
           component={RegistrationScreen}
           options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Camera"
+          component={CameraScreen}
+          options={({ navigation }) => ({
+            title: "Камера",
+            headerLeft: () => (
+              <AntDesign
+                name="arrowleft"
+                size={24}
+                color="#212121cc"
+                onPress={() => navigation.goBack()}
+              />
+            ),
+            headerLeftContainerStyle: { paddingLeft: 16 },
+            headerTitleContainerStyle: { paddingRight: 16 },
+          })}
         />
       </MainStack.Navigator>
     );
