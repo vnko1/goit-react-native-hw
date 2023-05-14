@@ -16,7 +16,8 @@ import {
 
 import SvgComponent from "../../components/SvgComponent";
 import { user } from "../../services/context";
-import { reg } from "../../redux/operations";
+import { registerUser } from "../../redux/index";
+import { useDispatch } from "react-redux";
 
 const initialValue = { name: "", email: "", password: "" };
 
@@ -26,6 +27,7 @@ export default RegistrationScreen = ({ navigation, route }) => {
   const [inputValue, setInputValue] = useState(initialValue);
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const [keyBoardIsShown, setKeyBoardIsShown] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (route.params) setImage(route.params.image);
@@ -37,10 +39,11 @@ export default RegistrationScreen = ({ navigation, route }) => {
     password: false,
   });
 
-  const onPressBtn = async () => {
+  const onPressBtn = () => {
     // console.log(inputValue);
+
     const { email, password, name } = inputValue;
-    await reg({ email, password, name, image });
+    dispatch(registerUser({ email, password, name, image }));
     hideKeyboard();
     setInputValue(initialValue);
     // setIsLoged(true);
