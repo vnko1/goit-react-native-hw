@@ -10,9 +10,9 @@ const Tab = createBottomTabNavigator();
 export default HomeScreen = () => {
   const { navigationRef } = user();
   const showTabBar =
-    navigationRef.getCurrentRoute().name === "Home" ||
-    navigationRef.getCurrentRoute().name === "InitialPostsScreen";
-
+    navigationRef.getCurrentRoute()?.name === "Home" ||
+    navigationRef.getCurrentRoute()?.name === "InitialPostsScreen";
+  console.log(navigationRef.getCurrentRoute());
   return (
     <Tab.Navigator
       screenOptions={{

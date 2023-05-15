@@ -13,7 +13,7 @@ export {
   refreshError,
 } from "./authSlice";
 export { registerUser, logInUser, logOutUser, refreshUser } from "./operations";
-export { store } from "./store";
+export { store, persistStor } from "./store";
 export {
   selectDisplayName,
   selectPhotoUrl,

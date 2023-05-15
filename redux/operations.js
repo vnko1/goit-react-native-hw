@@ -91,29 +91,26 @@ export const logOutUser = () => async (dispatch) => {
     await signOut(auth);
     dispatch(logOutSuccess());
   } catch (error) {
-    dispatch(logOutError());
+    dispatch(logOutError(error.message));
   }
 };
 
 export const refreshUser = () => async (dispatch) => {
   dispatch(refreshInProgress());
-  try {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        console.log(user);
-        const accessToken = await user.getIdToken();
-        const userState = {
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          email: user.email,
-          uid: user.uid,
-          accessToken,
-        };
 
-        dispatch(refreshSuccess(userState));
-      }
-    });
-  } catch (error) {
-    dispatch(refreshError());
-  }
+  onAuthStateChanged(auth, (user) => {
+    console.log(user);
+    if (user) {
+      // const accessToken = user.getIdToken();
+      const userState = {
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        email: user.email,
+        uid: user.uid,
+        accessToken: user.accessToken,
+      };
+
+      dispatch(refreshSuccess(userState));
+    }
+  });
 };
