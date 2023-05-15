@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { downloadPhotoFromServer, uploadPhotoToServer } from "../firebase";
@@ -12,6 +13,9 @@ import {
   logInInProgress,
   logInSuccess,
   logInError,
+  logOutInProgress,
+  logOutSuccess,
+  logOutError,
 } from "./authSlice";
 
 export const registerUser =
@@ -43,7 +47,7 @@ export const registerUser =
           uid: user.uid,
           accessToken,
         };
-        console.log(userState);
+
         dispatch(signInSuccess(userState));
       }
     } catch (error) {
@@ -66,10 +70,20 @@ export const logInUser =
           uid: user.uid,
           accessToken,
         };
-        console.log(userState);
+
         dispatch(logInSuccess(userState));
       }
     } catch (error) {
       dispatch(logInError(error.message));
     }
   };
+
+export const logOutUser = () => async (dispatch) => {
+  dispatch(logOutInProgress());
+  try {
+    await signOut(auth);
+    dispatch(logOutSuccess());
+  } catch (error) {
+    dispatch(logOutError());
+  }
+};

@@ -5,8 +5,11 @@ export {
   logInInProgress,
   logInSuccess,
   logInError,
+  logOutInProgress,
+  logOutSuccess,
+  logOutError,
 } from "./authSlice";
-export { registerUser, logInUser } from "./operations";
+export { registerUser, logInUser, logOutUser } from "./operations";
 export { store } from "./store";
 export {
   selectDisplayName,

@@ -26,6 +26,7 @@ const authError = (state, action) => {
   state.error = action.payload;
   state.isLoading = false;
 };
+const logOut = (state) => (state = initialState);
 
 const authSlice = createSlice({
   name: "auth",
@@ -37,6 +38,9 @@ const authSlice = createSlice({
     logInInProgress: authPending,
     logInSuccess: authSuccess,
     logInError: authError,
+    logOutInProgress: authPending,
+    logOutSuccess: logOut,
+    logOutError: authError,
   },
 });
 
@@ -47,5 +51,8 @@ export const {
   logInInProgress,
   logInSuccess,
   logInError,
+  logOutInProgress,
+  logOutSuccess,
+  logOutError,
 } = authSlice.actions;
 export const authReducer = authSlice.reducer;

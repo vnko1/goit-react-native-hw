@@ -1,19 +1,13 @@
-import { user } from "../services/context";
-
+import { useDispatch } from "react-redux";
+import { logOutUser } from "../redux/index";
 import { TouchableOpacity } from "react-native";
 import { LogOutIcon } from "./LogOutIcon";
-import { useNavigation } from "@react-navigation/native";
 
 export default LogOutButton = () => {
-  const navigation = useNavigation();
-  const { setIsLoged } = user();
+  const dispatch = useDispatch();
 
   return (
-    <TouchableOpacity
-      onPress={() => {
-        setIsLoged(false);
-      }}
-    >
+    <TouchableOpacity onPress={() => dispatch(logOutUser())}>
       <LogOutIcon />
     </TouchableOpacity>
   );
