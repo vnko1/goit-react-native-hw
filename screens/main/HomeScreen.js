@@ -4,15 +4,13 @@ import { user } from "../../services/context";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import PostsScreen from "./PostsScreen";
+import { useNavigationContainerRef, useRoute } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
 export default HomeScreen = () => {
-  const { navigationRef } = user();
-  const showTabBar =
-    navigationRef.getCurrentRoute()?.name === "Home" ||
-    navigationRef.getCurrentRoute()?.name === "InitialPostsScreen";
-  console.log(navigationRef.getCurrentRoute());
+  const { showTabBar } = user();
+
   return (
     <Tab.Navigator
       screenOptions={{

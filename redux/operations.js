@@ -99,7 +99,6 @@ export const refreshUser = () => async (dispatch) => {
   dispatch(refreshInProgress());
 
   onAuthStateChanged(auth, (user) => {
-    console.log(user);
     if (user) {
       // const accessToken = user.getIdToken();
       const userState = {

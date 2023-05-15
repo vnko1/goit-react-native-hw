@@ -8,7 +8,6 @@ import Main from "./components/Main";
 import { UserContext } from "./services/context";
 
 export default function App() {
-  const navigationRef = useNavigationContainerRef();
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
@@ -19,12 +18,10 @@ export default function App() {
   }
 
   return (
-    <UserContext.Provider value={{ navigationRef }}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistStor}>
-          <Main navigationRef={navigationRef} />
-        </PersistGate>
-      </Provider>
-    </UserContext.Provider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistStor}>
+        <Main />
+      </PersistGate>
+    </Provider>
   );
 }
