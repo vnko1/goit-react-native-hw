@@ -4,10 +4,14 @@ import { ref } from "firebase/storage";
 
 export const uploadPhotoToServer = async ({ photo, imageId }) => {
   try {
-    const image = await fetch(photo);
-    const file = image.blob();
-    const imageRef = ref(storage, `avatar/${imageId}`);
-    await uploadBytes(imageRef, file);
+    const response = await fetch(photo);
+    const file = await response.blob();
+    const imageRef = ref(storage, `avatar/${imageId}.jpg`);
+    const metadata = {
+      contentType: "image/jpeg",
+      name: "avatar",
+    };
+    await uploadBytes(imageRef, file, metadata);
   } catch (error) {
     console.log(error.message);
   }
@@ -15,8 +19,9 @@ export const uploadPhotoToServer = async ({ photo, imageId }) => {
 
 export const downloadPhotoFromServer = async (imageId) => {
   try {
-    const imageUrl = await getDownloadURL(ref(storage, `avatar/${imageId}`));
-
+    const imageUrl = await getDownloadURL(
+      ref(storage, `avatar/${imageId}.jpg`)
+    );
     return imageUrl;
   } catch (error) {
     console.log(error.message);

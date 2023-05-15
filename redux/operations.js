@@ -17,9 +17,9 @@ import {
   logOutInProgress,
   logOutSuccess,
   logOutError,
-  refreshInProgress,
-  refreshSuccess,
-  refreshError,
+  // refreshInProgress,
+  // refreshSuccess,
+  // refreshError,
 } from "./authSlice";
 
 export const registerUser =

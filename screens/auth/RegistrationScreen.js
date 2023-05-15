@@ -16,6 +16,8 @@ import {
 import SvgComponent from "../../components/SvgComponent";
 import { registerUser } from "../../redux/index";
 import { useDispatch } from "react-redux";
+import { downloadPhotoFromServer, uploadPhotoToServer } from "../../firebase";
+import { nanoid } from "@reduxjs/toolkit";
 
 const initialValue = { name: "", email: "", password: "" };
 
@@ -59,10 +61,7 @@ export default RegistrationScreen = ({ navigation, route }) => {
             style={styles.form}
           >
             <View style={styles.imageContainer}>
-              <Image
-                style={styles.image}
-                source={{ uri: image, cache: "reload" }}
-              />
+              <Image style={styles.image} source={{ uri: image }} />
               <Pressable
                 style={{
                   ...styles.imageIcon,
@@ -177,13 +176,13 @@ export default RegistrationScreen = ({ navigation, route }) => {
               <TouchableOpacity
                 onPress={onPressBtn}
                 activeOpacity={0.8}
-                disabled={
-                  inputValue.name !== "" &&
-                  inputValue.email !== "" &&
-                  inputValue.password !== ""
-                    ? false
-                    : true
-                }
+                // disabled={
+                //   inputValue.name !== "" &&
+                //   inputValue.email !== "" &&
+                //   inputValue.password !== ""
+                //     ? false
+                //     : true
+                // }
               >
                 <View style={styles.regBtn}>
                   <Text style={styles.btnText}>Зарегистрироваться</Text>

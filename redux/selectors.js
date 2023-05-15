@@ -1,6 +1,8 @@
-const selectDisplayName = (state) => state.displayNAme;
+const selectDisplayName = (state) => state.displayName;
 
-const selectPhotoUrl = (state) => state.photoUrl;
+const selectPhotoURL = (state) => state.photoURL;
+
+const selectEmail = (state) => state.email;
 
 const selectUid = (state) => state.uid;
 
@@ -14,10 +16,11 @@ const selectError = (state) => state.error;
 
 export {
   selectDisplayName,
-  selectPhotoUrl,
+  selectPhotoURL,
   selectUid,
   selectAccessToken,
   selectIsLogedIn,
   selectIsLoading,
   selectError,
+  selectEmail,
 };

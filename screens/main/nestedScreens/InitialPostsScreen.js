@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
 import { Image, StyleSheet, Text, View, Button, FlatList } from "react-native";
 import Post from "../../../components/Post";
+import { useSelector } from "react-redux";
 
-export default InitialPostsScreen = ({ navigation, route }) => {
+export default InitialPostsScreen = ({ route }) => {
   const [posts, setPosts] = useState([]);
+  const { email, displayName, photoURL } = useAuth();
 
   useEffect(() => {
     if (route.params) {
@@ -16,13 +19,15 @@ export default InitialPostsScreen = ({ navigation, route }) => {
       <View style={styles.user}>
         <View>
           <Image
-            source={require("../../../assets/images/User.jpg")}
+            source={{ uri: photoURL }}
             style={styles.userImage}
-          ></Image>
+            width={60}
+            height={60}
+          />
         </View>
         <View style={styles.userInfo}>
-          <Text style={styles.userInfoText}>User name</Text>
-          <Text style={styles.userInfoMail}>User e-mail</Text>
+          <Text style={styles.userInfoText}>{displayName}</Text>
+          <Text style={styles.userInfoMail}>{email}</Text>
         </View>
       </View>
       <FlatList
@@ -59,8 +64,7 @@ const styles = StyleSheet.create({
   },
   userImage: {
     resizeMode: "contain",
-    width: 60,
-    height: 60,
+
     borderWidth: 1,
     borderRadius: 16,
   },

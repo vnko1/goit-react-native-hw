@@ -40,9 +40,9 @@ const reducers = {
   logOutInProgress: authPending,
   logOutSuccess: logOut,
   logOutError: authError,
-  refreshInProgress: authPending,
-  refreshSuccess: authSuccess,
-  refreshError: authError,
+  // refreshInProgress: authPending,
+  // refreshSuccess: authSuccess,
+  // refreshError: authError,
 };
 
 const authSlice = createSlice({
@@ -61,8 +61,8 @@ export const {
   logOutInProgress,
   logOutSuccess,
   logOutError,
-  refreshInProgress,
-  refreshSuccess,
-  refreshError,
+  // refreshInProgress,
+  // refreshSuccess,
+  // refreshError,
 } = authSlice.actions;
 export const authReducer = authSlice.reducer;

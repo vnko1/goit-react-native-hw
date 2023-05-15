@@ -8,18 +8,19 @@ export {
   logOutInProgress,
   logOutSuccess,
   logOutError,
-  refreshInProgress,
-  refreshSuccess,
-  refreshError,
+  // refreshInProgress,
+  // refreshSuccess,
+  // refreshError,
 } from "./authSlice";
 export { registerUser, logInUser, logOutUser, refreshUser } from "./operations";
 export { store, persistStor } from "./store";
 export {
   selectDisplayName,
-  selectPhotoUrl,
+  selectPhotoURL,
   selectUid,
   selectAccessToken,
   selectIsLogedIn,
   selectIsLoading,
   selectError,
+  selectEmail,
 } from "./selectors";
