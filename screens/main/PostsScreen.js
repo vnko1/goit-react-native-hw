@@ -4,12 +4,21 @@ import InitialPostsScreen from "./nestedScreens/InitialPostsScreen";
 import MapScreen from "./nestedScreens/MapScreen";
 import CommentsScreen from "./nestedScreens/CommentsScreen";
 import LogOutButton from "../../components/LogOutButton";
+import { user } from "../../services/context";
 
 const NestedStack = createStackNavigator();
 
 export default PostsScreen = () => {
+  const { setShowTabBar } = user();
   return (
-    <NestedStack.Navigator>
+    <NestedStack.Navigator
+      screenListeners={{
+        state: (e) =>
+          e.data.state.routes.length > 1
+            ? setShowTabBar(false)
+            : setShowTabBar(true),
+      }}
+    >
       <NestedStack.Screen
         name="InitialPostsScreen"
         component={InitialPostsScreen}

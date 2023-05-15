@@ -4,7 +4,6 @@ import { user } from "../../services/context";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import PostsScreen from "./PostsScreen";
-import { useNavigationContainerRef, useRoute } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 

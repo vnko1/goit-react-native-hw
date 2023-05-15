@@ -7,7 +7,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 const MainStack = createStackNavigator();
 
-export const router = (isLoged) => {
+export const useRoute = (isLoged) => {
   if (!isLoged) {
     return (
       <MainStack.Navigator initialRouteName="Login">

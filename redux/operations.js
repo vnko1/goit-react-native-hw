@@ -95,21 +95,21 @@ export const logOutUser = () => async (dispatch) => {
   }
 };
 
-export const refreshUser = () => async (dispatch) => {
-  dispatch(refreshInProgress());
+// export const refreshUser = () => (dispatch) => {
+//   dispatch(refreshInProgress());
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // const accessToken = user.getIdToken();
-      const userState = {
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        email: user.email,
-        uid: user.uid,
-        accessToken: user.accessToken,
-      };
+//   onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       // const accessToken = user.getIdToken();
+//       const userState = {
+//         displayName: user.displayName,
+//         photoURL: user.photoURL,
+//         email: user.email,
+//         uid: user.uid,
+//         accessToken: user.accessToken,
+//       };
 
-      dispatch(refreshSuccess(userState));
-    }
-  });
-};
+//       dispatch(refreshSuccess(userState));
+//     }
+//   });
+// };
