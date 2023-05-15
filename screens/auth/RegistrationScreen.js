@@ -13,40 +13,33 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-
 import SvgComponent from "../../components/SvgComponent";
-import { user } from "../../services/context";
 import { registerUser } from "../../redux/index";
 import { useDispatch } from "react-redux";
 
 const initialValue = { name: "", email: "", password: "" };
 
 export default RegistrationScreen = ({ navigation, route }) => {
-  const { setIsLoged } = user();
   const [image, setImage] = useState(null);
   const [inputValue, setInputValue] = useState(initialValue);
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const [keyBoardIsShown, setKeyBoardIsShown] = useState(false);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (route.params) setImage(route.params.image);
-  }, [route.params]);
-
   const [focus, setFocus] = useState({
     name: false,
     email: false,
     password: false,
   });
 
-  const onPressBtn = () => {
-    // console.log(inputValue);
+  useEffect(() => {
+    if (route.params) setImage(route.params.image);
+  }, [route.params]);
 
+  const onPressBtn = () => {
     const { email, password, name } = inputValue;
     dispatch(registerUser({ email, password, name, image }));
     hideKeyboard();
     setInputValue(initialValue);
-    // setIsLoged(true);
   };
 
   const hideKeyboard = () => {
@@ -184,13 +177,13 @@ export default RegistrationScreen = ({ navigation, route }) => {
               <TouchableOpacity
                 onPress={onPressBtn}
                 activeOpacity={0.8}
-                // disabled={
-                //   inputValue.name !== "" &&
-                //   inputValue.email !== "" &&
-                //   inputValue.password !== ""
-                //     ? false
-                //     : true
-                // }
+                disabled={
+                  inputValue.name !== "" &&
+                  inputValue.email !== "" &&
+                  inputValue.password !== ""
+                    ? false
+                    : true
+                }
               >
                 <View style={styles.regBtn}>
                   <Text style={styles.btnText}>Зарегистрироваться</Text>

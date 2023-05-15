@@ -10,14 +10,20 @@ const initialState = {
   error: null,
 };
 
+const pending = (state) => {
+  state.isLoading = true;
+  state.error = null;
+};
+const error = (state, action) => {
+  state.error = action.payload;
+  state.isLoading = false;
+};
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    signInInProgress(state) {
-      state.isLoading = true;
-      state.error = null;
-    },
+    signInInProgress: pending,
     signInSuccess(state, action) {
       state.displayName = action.payload.displayName;
       state.photoURL = action.payload.photoURL;
@@ -26,10 +32,7 @@ const authSlice = createSlice({
       state.isLogedIn = true;
       state.isLoading = false;
     },
-    signInError(state, action) {
-      state.error = action.payload;
-      state.isLoading = false;
-    },
+    signInError: error,
   },
 });
 

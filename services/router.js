@@ -3,7 +3,7 @@ import RegistrationScreen from "../screens/auth/RegistrationScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
 import HomeScreen from "../screens/main/HomeScreen";
 import CameraScreen from "../screens/auth/CameraScreen";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 const MainStack = createStackNavigator();
 
