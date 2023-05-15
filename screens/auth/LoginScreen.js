@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logInUser } from "../../redux/index";
 import {
   ImageBackground,
   Text,
@@ -13,30 +15,26 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import { user } from "../../services/context";
 import SvgComponent from "../../components/SvgComponent";
 
 const initialValue = { email: "", password: "" };
 
 export default LoginScreen = ({ navigation }) => {
-  const { setIsLoged } = user();
-
   const [inputValue, setInputValue] = useState(initialValue);
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const [keyBoardIsShown, setKeyBoardIsShown] = useState(false);
-
   const [focus, setFocus] = useState({
     login: false,
     email: false,
     password: false,
   });
+  const dispatch = useDispatch();
 
   const onPressBtn = () => {
-    console.log(inputValue);
+    const { email, password } = inputValue;
+    dispatch(logInUser({ email, password }));
     hideKeyboard();
     setInputValue(initialValue);
-    setIsLoged(true);
   };
 
   const hideKeyboard = () => {

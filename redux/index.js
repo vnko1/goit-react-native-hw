@@ -1,5 +1,12 @@
-export { signInInProgress, signInSuccess, signInError } from "./authSlice";
-export { registerUser } from "./operations";
+export {
+  signInInProgress,
+  signInSuccess,
+  signInError,
+  logInInProgress,
+  logInSuccess,
+  logInError,
+} from "./authSlice";
+export { registerUser, logInUser } from "./operations";
 export { store } from "./store";
 export {
   selectDisplayName,

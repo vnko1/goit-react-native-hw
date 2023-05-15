@@ -1,7 +1,18 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../firebase/config";
 import { downloadPhotoFromServer, uploadPhotoToServer } from "../firebase";
-import { signInInProgress, signInSuccess, signInError } from "./authSlice";
+import {
+  signInInProgress,
+  signInSuccess,
+  signInError,
+  logInInProgress,
+  logInSuccess,
+  logInError,
+} from "./authSlice";
 
 export const registerUser =
   ({ email, password, name, image }) =>
@@ -32,10 +43,33 @@ export const registerUser =
           uid: user.uid,
           accessToken,
         };
-
+        console.log(userState);
         dispatch(signInSuccess(userState));
       }
     } catch (error) {
       dispatch(signInError(error.message));
+    }
+  };
+
+export const logInUser =
+  ({ email, password }) =>
+  async (dispatch) => {
+    dispatch(logInInProgress());
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
+      if (user) {
+        const accessToken = await user.getIdToken();
+        const userState = {
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          uid: user.uid,
+          accessToken,
+        };
+        console.log(userState);
+        dispatch(logInSuccess(userState));
+      }
+    } catch (error) {
+      dispatch(logInError(error.message));
     }
   };

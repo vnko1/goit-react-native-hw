@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { user } from "../../services";
+import { user } from "../../services/context";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import PostsScreen from "./PostsScreen";

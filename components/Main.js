@@ -3,7 +3,8 @@ import {
   NavigationContainer,
   useNavigationContainerRef,
 } from "@react-navigation/native";
-import { UserContext, router } from "../services";
+import { UserContext } from "../services/context";
+import { router } from "../services/router";
 import { useAuth } from "../hooks/useAuth";
 
 const Main = () => {

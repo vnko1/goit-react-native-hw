@@ -10,11 +10,19 @@ const initialState = {
   error: null,
 };
 
-const pending = (state) => {
+const authPending = (state) => {
   state.isLoading = true;
   state.error = null;
 };
-const error = (state, action) => {
+const authSuccess = (state, action) => {
+  state.displayName = action.payload.displayName;
+  state.photoURL = action.payload.photoURL;
+  state.uid = action.payload.uid;
+  state.accessToken = action.payload.accessToken;
+  state.isLogedIn = true;
+  state.isLoading = false;
+};
+const authError = (state, action) => {
   state.error = action.payload;
   state.isLoading = false;
 };
@@ -23,19 +31,21 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    signInInProgress: pending,
-    signInSuccess(state, action) {
-      state.displayName = action.payload.displayName;
-      state.photoURL = action.payload.photoURL;
-      state.uid = action.payload.uid;
-      state.accessToken = action.payload.accessToken;
-      state.isLogedIn = true;
-      state.isLoading = false;
-    },
-    signInError: error,
+    signInInProgress: authPending,
+    signInSuccess: authSuccess,
+    signInError: authError,
+    logInInProgress: authPending,
+    logInSuccess: authSuccess,
+    logInError: authError,
   },
 });
 
-export const { signInInProgress, signInSuccess, signInError } =
-  authSlice.actions;
+export const {
+  signInInProgress,
+  signInSuccess,
+  signInError,
+  logInInProgress,
+  logInSuccess,
+  logInError,
+} = authSlice.actions;
 export const authReducer = authSlice.reducer;
