@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   displayName: null,
   photoURL: null,
+  email: null,
   uid: null,
   accessToken: null,
   isLogedIn: false,
@@ -17,6 +18,7 @@ const authPending = (state) => {
 const authSuccess = (state, action) => {
   state.displayName = action.payload.displayName;
   state.photoURL = action.payload.photoURL;
+  state.email = action.payload.email;
   state.uid = action.payload.uid;
   state.accessToken = action.payload.accessToken;
   state.isLogedIn = true;
@@ -28,20 +30,25 @@ const authError = (state, action) => {
 };
 const logOut = (state) => (state = initialState);
 
+const reducers = {
+  signInInProgress: authPending,
+  signInSuccess: authSuccess,
+  signInError: authError,
+  logInInProgress: authPending,
+  logInSuccess: authSuccess,
+  logInError: authError,
+  logOutInProgress: authPending,
+  logOutSuccess: logOut,
+  logOutError: authError,
+  refreshInProgress: authPending,
+  refreshSuccess: authSuccess,
+  refreshError: authError,
+};
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    signInInProgress: authPending,
-    signInSuccess: authSuccess,
-    signInError: authError,
-    logInInProgress: authPending,
-    logInSuccess: authSuccess,
-    logInError: authError,
-    logOutInProgress: authPending,
-    logOutSuccess: logOut,
-    logOutError: authError,
-  },
+  reducers,
 });
 
 export const {
@@ -54,5 +61,8 @@ export const {
   logOutInProgress,
   logOutSuccess,
   logOutError,
+  refreshInProgress,
+  refreshSuccess,
+  refreshError,
 } = authSlice.actions;
 export const authReducer = authSlice.reducer;

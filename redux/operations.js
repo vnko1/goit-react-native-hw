@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { downloadPhotoFromServer, uploadPhotoToServer } from "../firebase";
@@ -16,11 +17,14 @@ import {
   logOutInProgress,
   logOutSuccess,
   logOutError,
+  refreshInProgress,
+  refreshSuccess,
+  refreshError,
 } from "./authSlice";
 
 export const registerUser =
   ({ email, password, name, image }) =>
-  async (dispatch, getState) => {
+  async (dispatch) => {
     dispatch(signInInProgress());
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -44,6 +48,7 @@ export const registerUser =
         const userState = {
           displayName: user.displayName,
           photoURL: user.photoURL,
+          email: user.email,
           uid: user.uid,
           accessToken,
         };
@@ -64,9 +69,11 @@ export const logInUser =
       const user = auth.currentUser;
       if (user) {
         const accessToken = await user.getIdToken();
+
         const userState = {
           displayName: user.displayName,
           photoURL: user.photoURL,
+          email: user.email,
           uid: user.uid,
           accessToken,
         };
@@ -85,5 +92,28 @@ export const logOutUser = () => async (dispatch) => {
     dispatch(logOutSuccess());
   } catch (error) {
     dispatch(logOutError());
+  }
+};
+
+export const refreshUser = () => async (dispatch) => {
+  dispatch(refreshInProgress());
+  try {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        console.log(user);
+        const accessToken = await user.getIdToken();
+        const userState = {
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          email: user.email,
+          uid: user.uid,
+          accessToken,
+        };
+
+        dispatch(refreshSuccess(userState));
+      }
+    });
+  } catch (error) {
+    dispatch(refreshError());
   }
 };

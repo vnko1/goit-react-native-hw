@@ -15,9 +15,7 @@ const Main = () => {
 
   const routing = router(isLogedIn);
   return (
-    <UserContext.Provider
-      value={{ isLoged, setIsLoged, image, setImage, navigationRef }}
-    >
+    <UserContext.Provider value={{ navigationRef }}>
       <NavigationContainer ref={navigationRef}>{routing}</NavigationContainer>
     </UserContext.Provider>
   );

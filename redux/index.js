@@ -8,8 +8,11 @@ export {
   logOutInProgress,
   logOutSuccess,
   logOutError,
+  refreshInProgress,
+  refreshSuccess,
+  refreshError,
 } from "./authSlice";
-export { registerUser, logInUser, logOutUser } from "./operations";
+export { registerUser, logInUser, logOutUser, refreshUser } from "./operations";
 export { store } from "./store";
 export {
   selectDisplayName,
