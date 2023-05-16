@@ -1,7 +1,15 @@
-import { collection, addDoc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  // doc,
+  // setDoc,
+} from "firebase/firestore";
 import { db } from "./config";
 
 export const addPost = async (data) => {
+  // const userRef = doc(db, "users", `${data.uid}`, "posts", "post");
+  // await setDoc(userRef, data);
   try {
     await addDoc(collection(db, data.uid), data);
   } catch (error) {
