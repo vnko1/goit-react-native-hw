@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
-import { Image, StyleSheet, Text, View, Button, FlatList } from "react-native";
+import { Image, StyleSheet, Text, View, FlatList } from "react-native";
+import { getAllPosts } from "../../../firebase";
 import Post from "../../../components/Post";
 
-import { getPosts, getAllPosts } from "../../../firebase";
-
-export default InitialPostsScreen = ({ route }) => {
+export default InitialPostsScreen = () => {
   const [posts, setPosts] = useState([]);
   const { email, displayName, photoURL } = useAuth();
 
   useEffect(() => {
-    getAllPosts();
-    // getPosts(setPosts);
-    // if (route.params) {
-    //   setPosts((state) => [...state, route.params]);
-    // }
+    getAllPosts(setPosts);
   }, []);
 
   return (

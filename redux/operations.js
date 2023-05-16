@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../firebase/config";
-import { downloadPhotoFromServer, uploadPhotoToServer } from "../firebase";
+import { addAvatarPhoto } from "../firebase";
 import {
   signInInProgress,
   signInSuccess,
@@ -34,10 +34,7 @@ export const registerUser =
         const imageId = user.uid;
 
         let imageUrl = null;
-        if (image) {
-          await uploadPhotoToServer({ photo: image, imageId });
-          imageUrl = await downloadPhotoFromServer(imageId);
-        }
+        if (image) imageUrl = await addAvatarPhoto({ photo: image, imageId });
 
         await updateProfile(auth.currentUser, {
           displayName: name,
