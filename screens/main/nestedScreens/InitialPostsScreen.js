@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../../../hooks/useAuth";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Image, StyleSheet, Text, View, FlatList } from "react-native";
-import { getAllPosts } from "../../../firebase";
+import { useAuth } from "../../../hooks/useAuth";
 import Post from "../../../components/Post";
+import { getAllPosts } from "../../../redux/posts";
+import { usePosts } from "../../../hooks/usePosts";
 
 export default InitialPostsScreen = () => {
-  const [posts, setPosts] = useState([]);
-  const { email, displayName, photoURL, uid } = useAuth();
+  const { posts } = usePosts();
+  const { email, displayName, photoURL } = useAuth();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getAllPosts(setPosts, uid);
+    dispatch(getAllPosts());
   }, []);
 
   return (

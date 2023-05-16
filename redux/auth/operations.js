@@ -5,8 +5,8 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "../firebase/config";
-import { addAvatarPhoto } from "../firebase";
+import { auth } from "../../firebase";
+import { addAvatarPhoto } from "../../firebase";
 import {
   signInInProgress,
   signInSuccess,

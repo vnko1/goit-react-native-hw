@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { logInUser } from "../../redux/index";
+import { logInUser } from "../../redux/auth";
 import {
   ImageBackground,
   Text,

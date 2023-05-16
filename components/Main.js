@@ -4,7 +4,7 @@ import { UserContext } from "../services/context";
 import { useRoute } from "../services/router";
 import { useAuth } from "../hooks/useAuth";
 import { useDispatch } from "react-redux";
-import { refreshUser } from "../redux/index";
+import { refreshUser } from "../redux/auth";
 
 const Main = () => {
   const { isLogedIn } = useAuth();

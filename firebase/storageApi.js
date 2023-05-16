@@ -1,6 +1,6 @@
 import { uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../firebase/config";
 import { ref } from "firebase/storage";
+import { storage } from "../firebase/config";
 
 const uploadPhotoToServer = async ({ photo, imageId }) => {
   try {

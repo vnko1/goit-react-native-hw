@@ -8,7 +8,7 @@ import {
   selectIsLoading,
   selectError,
   selectEmail,
-} from "../redux/index";
+} from "../redux/auth";
 
 export const useAuth = () => {
   const email = useSelector(selectEmail);

@@ -19,6 +19,7 @@ import { Entypo, Feather } from "@expo/vector-icons";
 import { addPost } from "../../firebase";
 import { addPostPhoto } from "../../firebase";
 import { useAuth } from "../../hooks/useAuth";
+import { nanoid } from "@reduxjs/toolkit";
 
 export default CreatePostsScreen = ({ navigation }) => {
   const { width } = useWindowDimensions();

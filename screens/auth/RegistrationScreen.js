@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   ImageBackground,
   Text,
@@ -14,8 +15,7 @@ import {
   Image,
 } from "react-native";
 import SvgComponent from "../../components/SvgComponent";
-import { registerUser } from "../../redux/index";
-import { useDispatch } from "react-redux";
+import { registerUser } from "../../redux/auth";
 
 const initialValue = { name: "", email: "", password: "" };
 

@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { logOutUser } from "../redux/index";
 import { TouchableOpacity } from "react-native";
+import { logOutUser } from "../redux/auth";
 import { LogOutIcon } from "./LogOutIcon";
 
 export default LogOutButton = () => {
