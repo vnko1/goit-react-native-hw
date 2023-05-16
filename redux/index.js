@@ -8,9 +8,9 @@ export {
   logOutInProgress,
   logOutSuccess,
   logOutError,
-  // refreshInProgress,
-  // refreshSuccess,
-  // refreshError,
+  refreshInProgress,
+  refreshSuccess,
+  refreshError,
 } from "./authSlice";
 export { registerUser, logInUser, logOutUser, refreshUser } from "./operations";
 export { store, persistStor } from "./store";

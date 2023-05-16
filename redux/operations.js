@@ -17,9 +17,9 @@ import {
   logOutInProgress,
   logOutSuccess,
   logOutError,
-  // refreshInProgress,
-  // refreshSuccess,
-  // refreshError,
+  refreshInProgress,
+  refreshSuccess,
+  refreshError,
 } from "./authSlice";
 
 export const registerUser =
@@ -95,21 +95,31 @@ export const logOutUser = () => async (dispatch) => {
   }
 };
 
-// export const refreshUser = () => (dispatch) => {
-//   dispatch(refreshInProgress());
+export const refreshUser = () => (dispatch) => {
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      dispatch(refreshInProgress());
+      const accessToken = await user.getIdToken();
+      try {
+        const userState = {
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          email: user.email,
+          uid: user.uid,
+          accessToken,
+        };
 
-//   onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//       // const accessToken = user.getIdToken();
-//       const userState = {
-//         displayName: user.displayName,
-//         photoURL: user.photoURL,
-//         email: user.email,
-//         uid: user.uid,
-//         accessToken: user.accessToken,
-//       };
-
-//       dispatch(refreshSuccess(userState));
-//     }
-//   });
-// };
+        dispatch(refreshSuccess(userState));
+      } catch (error) {
+        dispatch(refreshError(error.message));
+      }
+    } else {
+      dispatch(logOutInProgress());
+      dispatch(logOutSuccess());
+      try {
+      } catch (error) {
+        dispatch(logOutError(error.message));
+      }
+    }
+  });
+};

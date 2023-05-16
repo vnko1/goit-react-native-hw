@@ -4,23 +4,18 @@ import { NavigationContainer } from "@react-navigation/native";
 import { UserContext } from "../services/context";
 import { useRoute } from "../services/router";
 import { useAuth } from "../hooks/useAuth";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase";
+import { useDispatch } from "react-redux";
+import { refreshUser } from "../redux/index";
 
 const Main = () => {
   const { isLogedIn } = useAuth();
   const [showTabBar, setShowTabBar] = useState(true);
   const routing = useRoute(isLogedIn);
-
-  // useEffect(() => {
-  //   if (isLogedIn) dispatch(refreshUser());
-  // }, [isLogedIn]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      console.log(user);
-    });
-  }, [isLogedIn]);
+    dispatch(refreshUser());
+  }, []);
 
   return (
     <UserContext.Provider value={{ showTabBar, setShowTabBar }}>
