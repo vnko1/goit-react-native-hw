@@ -1,2 +1,7 @@
-export { app, auth, storage } from "./config";
-export { downloadPhotoFromServer, uploadPhotoToServer } from "./storageApi";
+export { app, auth, storage, db } from "./config";
+export {
+  downloadPhotoFromServer,
+  uploadPhotoToServer,
+  addPhoto,
+} from "./storageApi";
+export { addPost } from "./databaseApi";

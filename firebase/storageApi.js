@@ -27,3 +27,9 @@ export const downloadPhotoFromServer = async (imageId) => {
     console.log(error.message);
   }
 };
+
+export const addPhoto = async ({ photo, imageId }) => {
+  await uploadPhotoToServer({ photo, imageId });
+  const image = await downloadPhotoFromServer(imageId);
+  return image;
+};

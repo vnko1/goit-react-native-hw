@@ -16,6 +16,9 @@ import {
 import { Camera } from "expo-camera";
 import * as Location from "expo-location";
 import { Entypo, Feather } from "@expo/vector-icons";
+import { addPost } from "../../firebase";
+import { addPhoto } from "../../firebase";
+import { useAuth } from "../../hooks/useAuth";
 
 export default CreatePostsScreen = ({ navigation }) => {
   const { width } = useWindowDimensions();
@@ -26,6 +29,7 @@ export default CreatePostsScreen = ({ navigation }) => {
   const [titleValue, setTitleValue] = useState(null);
   const [regionValue, setRegionValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { uid, displayName } = useAuth();
   const submitBtnDisabled = image && titleValue && regionValue ? false : true;
 
   useEffect(() => {
@@ -58,15 +62,28 @@ export default CreatePostsScreen = ({ navigation }) => {
     setIsLoading(true);
     if (locationPermission) {
       const position = await Location.getCurrentPositionAsync();
-      navigation.navigate("InitialPostsScreen", {
-        image,
+      const imageUrl = await addPhoto({ image, imageId: uid });
+      const data = {
+        uid,
+        displayName,
+        imageUrl,
         titleValue,
         regionValue,
         coords: {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         },
-      });
+      };
+      await addPost(data);
+      // navigation.navigate("InitialPostsScreen", {
+      //   image,
+      //   titleValue,
+      //   regionValue,
+      //   coords: {
+      //     latitude: position.coords.latitude,
+      //     longitude: position.coords.longitude,
+      //   },
+      // });
     } else {
       navigation.navigate("InitialPostsScreen", {
         image,
