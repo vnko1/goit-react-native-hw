@@ -28,8 +28,34 @@ export const downloadPhotoFromServer = async (imageId) => {
   }
 };
 
-export const addPhoto = async ({ photo, imageId }) => {
-  await uploadPhotoToServer({ photo, imageId });
-  const image = await downloadPhotoFromServer(imageId);
-  return image;
+const uploadPostPhotoToServer = async ({ photo, imageId }) => {
+  try {
+    const response = await fetch(photo);
+    const file = await response.blob();
+    const imageRef = ref(storage, `postImage/${imageId}.jpg`);
+    const metadata = {
+      contentType: "image/jpeg",
+      name: "avatar",
+    };
+    await uploadBytes(imageRef, file, metadata);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const downloadPostPhotoFromServer = async (imageId) => {
+  try {
+    const imageUrl = await getDownloadURL(
+      ref(storage, `postImage/${imageId}.jpg`)
+    );
+    return imageUrl;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const addPostPhoto = async ({ photo, imageId }) => {
+  await uploadPostPhotoToServer({ photo, imageId });
+  const imageUrl = await downloadPostPhotoFromServer(imageId);
+  return imageUrl;
 };

@@ -17,7 +17,7 @@ import { Camera } from "expo-camera";
 import * as Location from "expo-location";
 import { Entypo, Feather } from "@expo/vector-icons";
 import { addPost } from "../../firebase";
-import { addPhoto } from "../../firebase";
+import { addPostPhoto } from "../../firebase";
 import { useAuth } from "../../hooks/useAuth";
 
 export default CreatePostsScreen = ({ navigation }) => {
@@ -60,9 +60,9 @@ export default CreatePostsScreen = ({ navigation }) => {
 
   const onSubmit = async () => {
     setIsLoading(true);
+    const position = await Location.getCurrentPositionAsync();
+    const imageUrl = await addPostPhoto({ photo: image, imageId: uid });
     if (locationPermission) {
-      const position = await Location.getCurrentPositionAsync();
-      const imageUrl = await addPhoto({ image, imageId: uid });
       const data = {
         uid,
         displayName,
@@ -75,21 +75,17 @@ export default CreatePostsScreen = ({ navigation }) => {
         },
       };
       await addPost(data);
-      // navigation.navigate("InitialPostsScreen", {
-      //   image,
-      //   titleValue,
-      //   regionValue,
-      //   coords: {
-      //     latitude: position.coords.latitude,
-      //     longitude: position.coords.longitude,
-      //   },
-      // });
+      navigation.navigate("InitialPostsScreen");
     } else {
-      navigation.navigate("InitialPostsScreen", {
-        image,
+      const data = {
+        uid,
+        displayName,
+        imageUrl,
         titleValue,
         regionValue,
-      });
+      };
+      await addPost(data);
+      navigation.navigate("InitialPostsScreen");
     }
     setIsLoading(false);
     onDelete();

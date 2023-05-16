@@ -2,17 +2,21 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { Image, StyleSheet, Text, View, Button, FlatList } from "react-native";
 import Post from "../../../components/Post";
-import { useSelector } from "react-redux";
+
+import { getAllPosts } from "../../../firebase";
 
 export default InitialPostsScreen = ({ route }) => {
   const [posts, setPosts] = useState([]);
   const { email, displayName, photoURL } = useAuth();
 
   useEffect(() => {
-    if (route.params) {
-      setPosts((state) => [...state, route.params]);
-    }
-  }, [route.params]);
+    console.log(1);
+    console.log(posts);
+    getAllPosts(setPosts);
+    // if (route.params) {
+    //   setPosts((state) => [...state, route.params]);
+    // }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -32,11 +36,11 @@ export default InitialPostsScreen = ({ route }) => {
       </View>
       <FlatList
         data={posts}
-        keyExtractor={(_, index) => index.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           return (
             <Post
-              image={item.image}
+              image={item.imageUrl}
               title={item.titleValue}
               region={item.regionValue}
               coords={item.coords}
