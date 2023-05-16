@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import { NavigationContainer } from "@react-navigation/native";
 import { UserContext } from "../services/context";
 import { useRoute } from "../services/router";
