@@ -18,9 +18,9 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistStor}>
-        <Main />
-      </PersistGate>
+      {/* <PersistGate loading={null} persistor={persistStor}> */}
+      <Main />
+      {/* </PersistGate> */}
     </Provider>
   );
 }

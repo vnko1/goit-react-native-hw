@@ -17,16 +17,16 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
-const reducer = persistReducer(persistConfig, authReducer);
+// const reducer = persistReducer(persistConfig, authReducer);
 
 export const store = configureStore({
-  reducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+  reducer: authReducer,
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     serializableCheck: {
+  //       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+  //     },
+  //   }),
 });
 
-export const persistStor = persistStore(store);
+// export const persistStor = persistStore(store);
