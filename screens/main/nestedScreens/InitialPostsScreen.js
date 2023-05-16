@@ -6,10 +6,10 @@ import Post from "../../../components/Post";
 
 export default InitialPostsScreen = () => {
   const [posts, setPosts] = useState([]);
-  const { email, displayName, photoURL } = useAuth();
+  const { email, displayName, photoURL, uid } = useAuth();
 
   useEffect(() => {
-    getAllPosts(setPosts);
+    getAllPosts(setPosts, uid);
   }, []);
 
   return (
