@@ -4,4 +4,4 @@ export {
   uploadPhotoToServer,
   addPostPhoto,
 } from "./storageApi";
-export { addPost, getAllPosts } from "./databaseApi";
+export { addPost, getPosts, getAllPosts } from "./databaseApi";
