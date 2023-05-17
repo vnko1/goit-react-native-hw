@@ -10,6 +10,7 @@ export default InitialPostsScreen = () => {
   const { posts } = usePosts();
   const { email, displayName, photoURL } = useAuth();
   const dispatch = useDispatch();
+  console.log(posts);
 
   useEffect(() => {
     dispatch(getAllPosts());
