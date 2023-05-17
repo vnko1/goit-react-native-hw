@@ -10,24 +10,47 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePosts } from "../../../hooks/usePosts";
 import { AntDesign } from "@expo/vector-icons";
 import { addComments } from "../../../firebase";
+import { useDispatch } from "react-redux";
+import { getAllComents } from "../../../redux/posts";
+
+const getDate = () => {
+  const date = new Date();
+  const fullYear = date.toLocaleString("ru", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  console.log(date);
+  console.log(fullYear);
+};
 
 export default CommentsScreen = ({ route: { params } }) => {
   const [keyboardIsShown, setKeyboardIsShown] = useState(false);
   const { posts } = usePosts();
   const post = useMemo(() => posts.find((post) => post.id === params.id));
   const [inputValue, setInputValue] = useState("");
+  const dispatch = useDispatch();
+  getDate();
+  useEffect(() => {
+    dispatch(getAllComents());
+  }, []);
 
   const hideKeyboard = () => {
     setKeyboardIsShown(false);
     Keyboard.dismiss();
   };
+
   const sendComment = () => {
+    const date = new Date();
     const data = {
       comment: inputValue,
+      name: post.displayName,
+      uid: post.uid,
     };
 
     addComments(data, post.id);

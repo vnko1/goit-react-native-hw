@@ -1,9 +1,15 @@
 import { useSelector } from "react-redux";
-import { selectPosts, selectIsLoading, selectError } from "../redux/posts";
+import {
+  selectPosts,
+  selectIsLoading,
+  selectError,
+  selectComments,
+} from "../redux/posts";
 
 export const usePosts = () => {
   const posts = useSelector(selectPosts);
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
-  return { posts, isLoading, error };
+  const comments = useSelector(selectComments);
+  return { posts, isLoading, error, comments };
 };

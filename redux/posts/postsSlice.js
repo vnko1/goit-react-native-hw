@@ -2,33 +2,48 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   posts: null,
+  comments: null,
   isLoading: false,
   error: null,
 };
 
-const postPending = (state) => {
+const pending = (state) => {
   state.isLoading = true;
   state.error = null;
 };
 
-const getPostsResolved = (state, action) => {
+const postsResolved = (state, action) => {
   state.posts = action.payload;
   state.isLoading = false;
 };
 
-const postError = (state, action) => {
+const commentsResolved = (state, action) => {
+  state.comments = action.payload;
+  state.isLoading = false;
+};
+
+const error = (state, action) => {
   state.error = action.payload;
   state.isLoading = false;
 };
 
 const reducers = {
-  getPostsPending: postPending,
-  getPostsSuccess: getPostsResolved,
-  getPostsError: postError,
+  getPostsPending: pending,
+  getPostsResolved: postsResolved,
+  getPostsError: error,
+  getCommentsPending: pending,
+  getCommentsResolved: commentsResolved,
+  getCommentsError: error,
 };
 
 const postsSlice = createSlice({ name: "posts", initialState, reducers });
 
-export const { getPostsPending, getPostsSuccess, getPostsError } =
-  postsSlice.actions;
+export const {
+  getPostsPending,
+  getPostsResolved,
+  getPostsError,
+  getCommentsPending,
+  getCommentsResolved,
+  getCommentsError,
+} = postsSlice.actions;
 export const postsReducer = postsSlice.reducer;
