@@ -8,6 +8,7 @@ import {
   query,
   where,
   getDocs,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "./config";
 
@@ -28,8 +29,12 @@ export const addComment = async (data, id) => {
 };
 
 export const getPostComments = async (id, dispatch, getCommentsResolved) => {
+  const q = query(
+    collection(db, "posts", id, "comments"),
+    orderBy("creadetAt")
+  );
   const postComments = collection(db, "posts", id, "comments");
-  onSnapshot(postComments, (data) =>
+  onSnapshot(q, (data) =>
     dispatch(
       getCommentsResolved(
         data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))

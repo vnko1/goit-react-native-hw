@@ -1,6 +1,4 @@
-export const getDate = () => {
-  const date = new Date();
-
+export const getDate = (date) => {
   const year = date
     .toLocaleString("ru", {
       year: "numeric",

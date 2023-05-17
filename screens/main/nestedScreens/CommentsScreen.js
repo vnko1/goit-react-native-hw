@@ -9,6 +9,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  FlatList,
 } from "react-native";
 import { useEffect, useMemo, useState } from "react";
 import { usePosts } from "../../../hooks/usePosts";
@@ -17,11 +18,16 @@ import { addComment } from "../../../firebase";
 import { useDispatch } from "react-redux";
 import { getAllPostComments } from "../../../redux/comments";
 import { getDate } from "../../../services/functions";
+import Comment from "../../../components/Comment";
+import { useComments } from "../../../hooks/useComments";
+import { useAuth } from "../../../hooks/useAuth";
 
 export default CommentsScreen = ({ route: { params } }) => {
   const [keyboardIsShown, setKeyboardIsShown] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const { posts } = usePosts();
+  const { photoURL } = useAuth();
+  const { comments } = useComments();
   const dispatch = useDispatch();
   const post = useMemo(() => posts.find((post) => post.id === params.id));
 
@@ -35,14 +41,17 @@ export default CommentsScreen = ({ route: { params } }) => {
   };
 
   const sendComment = () => {
-    const date = getDate();
+    const commentDate = new Date();
+    const date = commentDate.getTime();
+    const dateData = getDate(commentDate);
     const data = {
       comment: inputValue,
       name: post.displayName,
-      avatar: post.imageUrl,
+      avatar: photoURL,
       uid: post.uid,
       id: post.id,
-      date,
+      creadetAt: date,
+      formatedData: dateData,
     };
 
     addComment(data, post.id);
@@ -60,32 +69,48 @@ export default CommentsScreen = ({ route: { params } }) => {
               height={240}
             />
           </View>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
-            <View
-              style={{
-                ...styles.inputContainer,
-                marginBottom: keyboardIsShown ? 100 : 32,
-              }}
+          <FlatList
+            data={comments}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => {
+              return (
+                <Comment
+                  comment={item.comment}
+                  avatar={item.avatar}
+                  formatedData={item.formatedData}
+                  userId={item.uid}
+                />
+              );
+            }}
+          />
+          <View>
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
-              <TextInput
-                style={styles.input}
-                value={inputValue}
-                placeholder="Комментировать..."
-                onFocus={() => setKeyboardIsShown(true)}
-                onBlur={() => setKeyboardIsShown(false)}
-                onChangeText={(value) => setInputValue(value)}
-              />
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={sendComment}
-                disabled={!inputValue}
+              <View
+                style={{
+                  ...styles.inputContainer,
+                  marginBottom: keyboardIsShown ? 100 : 32,
+                }}
               >
-                <AntDesign name="arrowup" size={20} color="white" />
-              </TouchableOpacity>
-            </View>
-          </KeyboardAvoidingView>
+                <TextInput
+                  style={styles.input}
+                  value={inputValue}
+                  placeholder="Комментировать..."
+                  onFocus={() => setKeyboardIsShown(true)}
+                  onBlur={() => setKeyboardIsShown(false)}
+                  onChangeText={(value) => setInputValue(value)}
+                />
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={sendComment}
+                  disabled={!inputValue}
+                >
+                  <AntDesign name="arrowup" size={20} color="white" />
+                </TouchableOpacity>
+              </View>
+            </KeyboardAvoidingView>
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>
