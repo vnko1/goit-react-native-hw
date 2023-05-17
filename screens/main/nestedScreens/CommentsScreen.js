@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  SafeAreaView,
 } from "react-native";
 import { useEffect, useMemo, useState } from "react";
 import { usePosts } from "../../../hooks/usePosts";
@@ -21,6 +22,7 @@ import { getDate } from "../../../services/functions";
 import Comment from "../../../components/Comment";
 import { useComments } from "../../../hooks/useComments";
 import { useAuth } from "../../../hooks/useAuth";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default CommentsScreen = ({ route: { params } }) => {
   const [keyboardIsShown, setKeyboardIsShown] = useState(false);
@@ -57,7 +59,6 @@ export default CommentsScreen = ({ route: { params } }) => {
     addComment(data, post.id);
     setInputValue("");
   };
-
   return (
     <TouchableWithoutFeedback onPress={hideKeyboard}>
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
@@ -66,10 +67,15 @@ export default CommentsScreen = ({ route: { params } }) => {
             <Image
               source={{ uri: post.imageUrl }}
               style={styles.image}
-              height={240}
+              // height={240}
             />
           </View>
+
+          {/* <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          > */}
           <FlatList
+            style={{ height: "70%" }}
             data={comments}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
@@ -83,34 +89,29 @@ export default CommentsScreen = ({ route: { params } }) => {
               );
             }}
           />
-          <View>
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
+          <View
+            style={{
+              ...styles.inputContainer,
+              marginBottom: keyboardIsShown ? 100 : 32,
+            }}
+          >
+            <TextInput
+              style={styles.input}
+              value={inputValue}
+              placeholder="Комментировать..."
+              onFocus={() => setKeyboardIsShown(true)}
+              onBlur={() => setKeyboardIsShown(false)}
+              onChangeText={(value) => setInputValue(value)}
+            />
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={sendComment}
+              disabled={!inputValue}
             >
-              <View
-                style={{
-                  ...styles.inputContainer,
-                  marginBottom: keyboardIsShown ? 100 : 32,
-                }}
-              >
-                <TextInput
-                  style={styles.input}
-                  value={inputValue}
-                  placeholder="Комментировать..."
-                  onFocus={() => setKeyboardIsShown(true)}
-                  onBlur={() => setKeyboardIsShown(false)}
-                  onChangeText={(value) => setInputValue(value)}
-                />
-                <TouchableOpacity
-                  style={styles.btn}
-                  onPress={sendComment}
-                  disabled={!inputValue}
-                >
-                  <AntDesign name="arrowup" size={20} color="white" />
-                </TouchableOpacity>
-              </View>
-            </KeyboardAvoidingView>
+              <AntDesign name="arrowup" size={20} color="white" />
+            </TouchableOpacity>
           </View>
+          {/* </KeyboardAvoidingView> */}
         </View>
       </View>
     </TouchableWithoutFeedback>

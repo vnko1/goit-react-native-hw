@@ -6,10 +6,25 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
+import { getCommentsCount } from "../firebase";
+
+import { useComments } from "../hooks/useComments";
 
 export default Post = ({ image, title, region, coords, id }) => {
+  const [value, setValue] = useState(0);
   const navigation = useNavigation();
+  const { comments } = useComments();
+
+  useEffect(() => {
+    (async () => {
+      const value = await getCommentsCount(id);
+
+      setValue(value);
+    })();
+  }, [comments?.length]);
+
   return (
     <View style={styles.container}>
       <Image source={{ uri: image }} style={styles.image} />
@@ -22,7 +37,7 @@ export default Post = ({ image, title, region, coords, id }) => {
         >
           <View style={styles.commentsContainer}>
             <Feather name="message-circle" size={18} color="#BDBDBD" />
-            <Text style={styles.commentText}>0</Text>
+            <Text style={styles.commentText}>{value}</Text>
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback

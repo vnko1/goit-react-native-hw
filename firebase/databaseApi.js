@@ -9,6 +9,7 @@ import {
   where,
   getDocs,
   orderBy,
+  getCountFromServer,
 } from "firebase/firestore";
 import { db } from "./config";
 
@@ -33,7 +34,8 @@ export const getPostComments = async (id, dispatch, getCommentsResolved) => {
     collection(db, "posts", id, "comments"),
     orderBy("creadetAt")
   );
-  const postComments = collection(db, "posts", id, "comments");
+
+  // const postComments = collection(db, "posts", id, "comments");
   onSnapshot(q, (data) =>
     dispatch(
       getCommentsResolved(
@@ -41,6 +43,14 @@ export const getPostComments = async (id, dispatch, getCommentsResolved) => {
       )
     )
   );
+};
+
+export const getCommentsCount = async (id) => {
+  const coll = collection(db, "posts", id, "comments");
+  const q = query(coll, where("id", "==", id));
+  const snapshot = await getCountFromServer(q);
+  return snapshot.data().count;
+  // console.log("count: ", snapshot.data().count);
 };
 
 // export const getComments = async (dispatch, getCommentsResolved) => {
