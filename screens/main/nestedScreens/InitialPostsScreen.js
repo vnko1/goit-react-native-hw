@@ -41,6 +41,7 @@ export default InitialPostsScreen = () => {
               title={item.titleValue}
               region={item.regionValue}
               coords={item.coords}
+              id={item.id}
             />
           );
         }}
@@ -80,28 +81,4 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 11,
   },
-  // titleBox: {
-  //   margin: 0,
-  //   alignItems: "center",
-  //   backgroundColor: "#fff",
-  //   height: 88,
-  //   borderBottomWidth: 1,
-  //   borderBottomColor: "rgba(0,0,0,0.3)",
-  // },
-  // header: {
-  //   height: 22,
-  //   fontWeight: "500",
-  //   fontSize: 17,
-  //   color: "#212121",
-  //   marginTop: 55,
-  //   marginBottom: 11,
-  // },
-  // footer: {
-  //   borderTopWidth: 1,
-  //   borderTopColor: "rgba(0,0,0,0.3)",
-  //   width: "100%",
-  //   height: 83,
-  //   position: "absolute",
-  //   bottom: 0,
-  // },
 });

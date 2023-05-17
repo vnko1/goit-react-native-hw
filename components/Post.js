@@ -8,7 +8,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 
-export default Post = ({ image, title, region, coords }) => {
+export default Post = ({ image, title, region, coords, id }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -17,7 +17,7 @@ export default Post = ({ image, title, region, coords }) => {
       <View style={styles.textContainer}>
         <TouchableWithoutFeedback
           onPress={() => {
-            navigation.navigate("Comments");
+            navigation.navigate("Comments", { id });
           }}
         >
           <View style={styles.commentsContainer}>
