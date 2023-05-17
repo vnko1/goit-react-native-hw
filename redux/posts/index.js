@@ -1,10 +1,2 @@
-export {
-  selectPosts,
-  selectIsLoading,
-  selectError,
-  getCommentsPending,
-  getCommentsResolved,
-  getCommentsError,
-  selectComments,
-} from "./selectors";
-export { getAllPosts, getAllComents } from "./operations";
+export { selectPosts, selectIsLoading, selectError } from "./selectors";
+export { getAllPosts } from "./operations";

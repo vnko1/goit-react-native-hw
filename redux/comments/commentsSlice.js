@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  posts: null,
+  comments: null,
   isLoading: false,
   error: null,
 };
@@ -9,11 +9,6 @@ const initialState = {
 const pending = (state) => {
   state.isLoading = true;
   state.error = null;
-};
-
-const postsResolved = (state, action) => {
-  state.posts = action.payload;
-  state.isLoading = false;
 };
 
 const commentsResolved = (state, action) => {
@@ -27,22 +22,13 @@ const error = (state, action) => {
 };
 
 const reducers = {
-  getPostsPending: pending,
-  getPostsResolved: postsResolved,
-  getPostsError: error,
   getCommentsPending: pending,
   getCommentsResolved: commentsResolved,
   getCommentsError: error,
 };
 
-const postsSlice = createSlice({ name: "posts", initialState, reducers });
+const commentsSlice = createSlice({ name: "comments", initialState, reducers });
 
-export const {
-  getPostsPending,
-  getPostsResolved,
-  getPostsError,
-  getCommentsPending,
-  getCommentsResolved,
-  getCommentsError,
-} = postsSlice.actions;
-export const postsReducer = postsSlice.reducer;
+export const { getCommentsPending, getCommentsResolved, getCommentsError } =
+  commentsSlice.actions;
+export const commentsReducer = commentsSlice.reducer;

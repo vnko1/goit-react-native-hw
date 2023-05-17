@@ -13,47 +13,40 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { usePosts } from "../../../hooks/usePosts";
 import { AntDesign } from "@expo/vector-icons";
-import { addComments } from "../../../firebase";
+import { addComment } from "../../../firebase";
 import { useDispatch } from "react-redux";
-import { getAllComents } from "../../../redux/posts";
-
-const getDate = () => {
-  const date = new Date();
-  const fullYear = date.toLocaleString("ru", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-
-  console.log(date);
-  console.log(fullYear);
-};
+import { getAllPostComments } from "../../../redux/comments";
+import { getDate } from "../../../services/functions";
 
 export default CommentsScreen = ({ route: { params } }) => {
   const [keyboardIsShown, setKeyboardIsShown] = useState(false);
-  const { posts } = usePosts();
-  const post = useMemo(() => posts.find((post) => post.id === params.id));
   const [inputValue, setInputValue] = useState("");
+  const { posts } = usePosts();
   const dispatch = useDispatch();
-  getDate();
+  const post = useMemo(() => posts.find((post) => post.id === params.id));
+
   useEffect(() => {
-    dispatch(getAllComents());
+    dispatch(getAllPostComments(post.id));
   }, []);
 
   const hideKeyboard = () => {
-    setKeyboardIsShown(false);
     Keyboard.dismiss();
+    setKeyboardIsShown(false);
   };
 
   const sendComment = () => {
-    const date = new Date();
+    const date = getDate();
     const data = {
       comment: inputValue,
       name: post.displayName,
+      avatar: post.imageUrl,
       uid: post.uid,
+      id: post.id,
+      date,
     };
 
-    addComments(data, post.id);
+    addComment(data, post.id);
+    setInputValue("");
   };
 
   return (
@@ -84,7 +77,11 @@ export default CommentsScreen = ({ route: { params } }) => {
                 onBlur={() => setKeyboardIsShown(false)}
                 onChangeText={(value) => setInputValue(value)}
               />
-              <TouchableOpacity style={styles.btn} onPress={sendComment}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={sendComment}
+                disabled={!inputValue}
+              >
                 <AntDesign name="arrowup" size={20} color="white" />
               </TouchableOpacity>
             </View>

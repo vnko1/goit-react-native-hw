@@ -23,13 +23,13 @@ export const getPosts = async (dispatch, getPostsResolved) => {
   );
 };
 
-export const addComments = async (data, id) => {
+export const addComment = async (data, id) => {
   addDoc(collection(db, "posts", id, "comments"), data);
 };
 
-export const getComments = async (dispatch, getCommentsResolved) => {
-  const allPosts = query(collectionGroup(db, "comments"));
-  onSnapshot(allPosts, (data) =>
+export const getPostComments = async (id, dispatch, getCommentsResolved) => {
+  const postComments = collection(db, "posts", id, "comments");
+  onSnapshot(postComments, (data) =>
     dispatch(
       getCommentsResolved(
         data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -37,6 +37,17 @@ export const getComments = async (dispatch, getCommentsResolved) => {
     )
   );
 };
+
+// export const getComments = async (dispatch, getCommentsResolved) => {
+//   const allPosts = query(collectionGroup(db, "comments"));
+//   onSnapshot(allPosts, (data) =>
+//     dispatch(
+//       getCommentsResolved(
+//         data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+//       )
+//     )
+//   );
+// };
 
 // const querySnapshot = await getDocs(allPosts);
 // querySnapshot.forEach((doc) => {

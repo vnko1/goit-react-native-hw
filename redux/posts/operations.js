@@ -1,12 +1,5 @@
-import { getPosts, getComments } from "../../firebase/";
-import {
-  getPostsPending,
-  getPostsResolved,
-  getPostsError,
-  getCommentsPending,
-  getCommentsResolved,
-  getCommentsError,
-} from "./postsSlice";
+import { getPosts } from "../../firebase/";
+import { getPostsPending, getPostsResolved, getPostsError } from "./postsSlice";
 
 export const getAllPosts = () => async (dispatch) => {
   dispatch(getPostsPending());
@@ -16,14 +9,3 @@ export const getAllPosts = () => async (dispatch) => {
     dispatch(getPostsError(error.message));
   }
 };
-
-export const getAllComents = () => async (dispatch) => {
-  dispatch(getCommentsPending());
-  try {
-    await getComments(dispatch, getCommentsResolved);
-  } catch (error) {
-    dispatch(getCommentsError(error.message));
-  }
-};
-
-export const getCollection = () => async (dispatch) => {};
