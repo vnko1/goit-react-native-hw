@@ -29,7 +29,12 @@ const CameraScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {cameraPermission && (
-        <Camera ref={setCamera} style={styles.camera} type={cameraType}>
+        <Camera
+          ref={setCamera}
+          style={styles.camera}
+          type={cameraType}
+          focusDepth={1}
+        >
           {image && (
             <View style={styles.imageContainer}>
               <Image width={60} height={60} source={{ uri: image }} />
