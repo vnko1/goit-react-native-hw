@@ -64,61 +64,62 @@ export default CommentsScreen = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={hideKeyboard}>
-      <View style={{ backgroundColor: "#fff", flex: 1 }}>
-        <View style={styles.container}>
-          <View>
+    <View style={{ backgroundColor: "#fff", flex: 1 }}>
+      <TouchableWithoutFeedback onPress={hideKeyboard}>
+        <KeyboardAvoidingView
+          style={{
+            flex: 1,
+          }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.container}>
             <Image
               source={{ uri: post.imageUrl }}
               style={styles.image}
-              // height={240}
+              height={240}
             />
-          </View>
 
-          {/* <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          > */}
-          <FlatList
-            style={{ height: "70%" }}
-            data={comments}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => {
-              return (
-                <Comment
-                  comment={item.comment}
-                  avatar={item.avatar}
-                  formatedData={item.formatedData}
-                  userId={item.uid}
-                />
-              );
-            }}
-          />
-          <View
-            style={{
-              ...styles.inputContainer,
-              marginBottom: keyboardIsShown ? 100 : 32,
-            }}
-          >
-            <TextInput
-              style={styles.input}
-              value={inputValue}
-              placeholder="Комментировать..."
-              onFocus={() => setKeyboardIsShown(true)}
-              onBlur={() => setKeyboardIsShown(false)}
-              onChangeText={(value) => setInputValue(value)}
+            <FlatList
+              style={{ height: "70%" }}
+              data={comments}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                return (
+                  <Comment
+                    comment={item.comment}
+                    avatar={item.avatar}
+                    formatedData={item.formatedData}
+                    userId={item.uid}
+                  />
+                );
+              }}
             />
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={sendComment}
-              disabled={!inputValue}
+            <View
+              style={{
+                ...styles.inputContainer,
+                marginBottom: keyboardIsShown ? 100 : 32,
+              }}
             >
-              <AntDesign name="arrowup" size={20} color="white" />
-            </TouchableOpacity>
+              <TextInput
+                style={styles.input}
+                value={inputValue}
+                placeholder="Комментировать..."
+                onFocus={() => setKeyboardIsShown(true)}
+                onBlur={() => setKeyboardIsShown(false)}
+                onChangeText={(value) => setInputValue(value)}
+              />
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={sendComment}
+                disabled={!inputValue}
+              >
+                <AntDesign name="arrowup" size={20} color="white" />
+              </TouchableOpacity>
+            </View>
           </View>
-          {/* </KeyboardAvoidingView> */}
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </View>
   );
 };
 
