@@ -23,21 +23,21 @@ import Comment from "../../../components/Comment";
 import { useComments } from "../../../hooks/useComments";
 import { useAuth } from "../../../hooks/useAuth";
 import { ScrollView } from "react-native-gesture-handler";
+import { useRoute } from "@react-navigation/native";
 
-export default CommentsScreen = ({ route: { params } }) => {
+export default CommentsScreen = () => {
   const [keyboardIsShown, setKeyboardIsShown] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const { posts } = usePosts();
   const { photoURL } = useAuth();
   const { comments } = useComments();
   const dispatch = useDispatch();
+  const route = useRoute();
 
-  const post = useMemo(() => posts.find((post) => post.id === params.id), []);
+  const post = posts.find((post) => post.id === route.params.id);
 
   useEffect(() => {
-    if (post.id) {
-      dispatch(getAllPostComments(post.id));
-    }
+    dispatch(getAllPostComments(post.id));
   }, []);
 
   const hideKeyboard = () => {
@@ -62,6 +62,7 @@ export default CommentsScreen = ({ route: { params } }) => {
     addComment(data, post.id);
     setInputValue("");
   };
+
   return (
     <TouchableWithoutFeedback onPress={hideKeyboard}>
       <View style={{ backgroundColor: "#fff", flex: 1 }}>

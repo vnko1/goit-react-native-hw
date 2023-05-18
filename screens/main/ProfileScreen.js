@@ -29,19 +29,20 @@ export default ProfileScreen = () => {
         source={require("../../assets/images/bg.jpg")}
       >
         <View style={styles.contentContainer}>
-          <View style={styles.imageContainer}>
-            {photoURL && (
+          {photoURL && (
+            <View style={styles.imageContainer}>
               <Image style={styles.image} source={{ uri: photoURL }} />
-            )}
-            <Pressable
-              style={{
-                ...styles.imageIcon,
-                borderColor: "#FF6C00",
-              }}
-            >
-              <SvgComponent />
-            </Pressable>
-          </View>
+
+              <Pressable
+                style={{
+                  ...styles.imageIcon,
+                  borderColor: "#FF6C00",
+                }}
+              >
+                <SvgComponent />
+              </Pressable>
+            </View>
+          )}
           <View style={{ position: "absolute", right: 16, top: 22 }}>
             <LogOutButton />
           </View>

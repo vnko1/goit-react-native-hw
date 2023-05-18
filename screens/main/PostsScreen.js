@@ -56,7 +56,9 @@ export default PostsScreen = () => {
               name="arrowleft"
               size={24}
               color="#212121cc"
-              onPress={() => navigation.goBack()}
+              onPress={() => {
+                navigation.goBack();
+              }}
             />
           ),
           headerLeftContainerStyle: { paddingLeft: 16 },

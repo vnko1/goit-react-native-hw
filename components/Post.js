@@ -24,10 +24,7 @@ export default Post = ({ image, title, region, coords, id }) => {
       setValue(value);
     })();
   }, [comments?.length]);
-  navigation.navigate("Posts", {
-    params: id,
-    screen: "Comments",
-  });
+
   return (
     <View style={styles.container}>
       <Image source={{ uri: image }} style={styles.image} />
