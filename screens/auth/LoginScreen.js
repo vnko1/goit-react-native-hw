@@ -31,7 +31,7 @@ export default LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onPressBtn = () => {
-    setInputValue(initialValue);
+    setInputValue({ email: "", password: "" });
     const { email, password } = inputValue;
     dispatch(logInUser({ email, password }));
     hideKeyboard();

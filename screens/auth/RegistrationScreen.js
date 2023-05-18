@@ -36,7 +36,7 @@ export default RegistrationScreen = ({ navigation, route }) => {
   }, [route.params]);
 
   const onPressBtn = () => {
-    setInputValue(initialValue);
+    setInputValue({ name: "", email: "", password: "" });
     const { email, password, name } = inputValue;
     dispatch(registerUser({ email, password, name, image }));
     hideKeyboard();
