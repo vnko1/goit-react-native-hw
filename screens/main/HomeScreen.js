@@ -71,18 +71,8 @@ export default HomeScreen = () => {
         name="Comments"
         component={ProfileScreen}
         options={({ navigation }) => ({
-          tabBarStyle: { display: "none" },
           title: "Комментарии",
-          headerLeft: () => (
-            <AntDesign
-              name="arrowleft"
-              size={24}
-              color="#212121cc"
-              onPress={() => navigation.goBack()}
-            />
-          ),
-          headerLeftContainerStyle: { paddingLeft: 16 },
-          headerTitleContainerStyle: { paddingRight: 16 },
+          headerShown: false,
           tabBarIcon: ({ _, size }) => (
             <AntDesign name="user" size={size} color="#212121cc" />
           ),

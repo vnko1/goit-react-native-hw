@@ -31,10 +31,13 @@ export default CommentsScreen = ({ route: { params } }) => {
   const { photoURL } = useAuth();
   const { comments } = useComments();
   const dispatch = useDispatch();
-  const post = useMemo(() => posts.find((post) => post.id === params.id));
+
+  const post = useMemo(() => posts.find((post) => post.id === params.id), []);
 
   useEffect(() => {
-    dispatch(getAllPostComments(post.id));
+    if (post.id) {
+      dispatch(getAllPostComments(post.id));
+    }
   }, []);
 
   const hideKeyboard = () => {

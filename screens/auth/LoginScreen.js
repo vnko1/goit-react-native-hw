@@ -31,10 +31,10 @@ export default LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onPressBtn = () => {
+    setInputValue(initialValue);
     const { email, password } = inputValue;
     dispatch(logInUser({ email, password }));
     hideKeyboard();
-    setInputValue(initialValue);
   };
 
   const hideKeyboard = () => {
