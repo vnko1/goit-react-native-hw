@@ -67,6 +67,7 @@ export default CommentsScreen = () => {
   const renderItem = () =>
     comments.map((item) => {
       const userComment = item.userId === uid;
+
       return (
         <View key={item.id}>
           <Comment
@@ -78,8 +79,6 @@ export default CommentsScreen = () => {
         </View>
       );
     });
-  // renderItem();
-  // console.log(renderItem());
 
   return (
     <View style={{ backgroundColor: "#fff", flex: 1 }}>
