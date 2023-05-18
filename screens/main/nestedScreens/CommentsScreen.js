@@ -85,9 +85,7 @@ export default CommentsScreen = () => {
     <View style={{ backgroundColor: "#fff", flex: 1 }}>
       <TouchableWithoutFeedback onPress={hideKeyboard}>
         <KeyboardAvoidingView
-          style={{
-            flex: 1,
-          }}
+          style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <View style={styles.container}>
@@ -97,7 +95,7 @@ export default CommentsScreen = () => {
               height={240}
             />
             {comments && (
-              <SafeAreaView>
+              <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView>{renderItem()}</ScrollView>
               </SafeAreaView>
             )}
@@ -130,22 +128,6 @@ export default CommentsScreen = () => {
   );
 };
 
-//  <FlatList
-//    style={{ height: "70%" }}
-//    data={comments}
-//    keyExtractor={(item) => item.id}
-//    renderItem={({ item }) => {
-//      return (
-//        <Comment
-//          comment={item.comment}
-//          avatar={item.avatar}
-//          formatedData={item.formatedData}
-//          userId={item.uid}
-//        />
-//      );
-//    }}
-//  />;
-
 const styles = StyleSheet.create({
   container: {
     justifyContent: "space-between",
@@ -153,12 +135,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     flex: 1,
   },
-  image: { width: "100%", height: 200, borderRadius: 8, marginTop: 32 },
-  inputContainer: { width: "100%", position: "relative" },
+  image: { width: "100%", borderRadius: 8, marginTop: 32 },
+  inputContainer: { width: "100%", position: "relative", height: 50 },
   input: {
     width: "100%",
+    height: "100%",
     backgroundColor: "#F6F6F6",
-    height: 50,
+
     paddingLeft: 16,
 
     borderWidth: 1,
