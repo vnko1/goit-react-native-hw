@@ -9,10 +9,11 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  ScrollView,
   FlatList,
   SafeAreaView,
 } from "react-native";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePosts } from "../../../hooks/usePosts";
 import { AntDesign } from "@expo/vector-icons";
 import { addComment } from "../../../firebase";
@@ -22,18 +23,17 @@ import { getDate } from "../../../services/functions";
 import Comment from "../../../components/Comment";
 import { useComments } from "../../../hooks/useComments";
 import { useAuth } from "../../../hooks/useAuth";
-import { ScrollView } from "react-native-gesture-handler";
+
 import { useRoute } from "@react-navigation/native";
 
 export default CommentsScreen = () => {
   const [keyboardIsShown, setKeyboardIsShown] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const { posts } = usePosts();
-  const { photoURL } = useAuth();
+  const { photoURL, uid } = useAuth();
   const { comments } = useComments();
   const dispatch = useDispatch();
   const route = useRoute();
-
   const post = posts.find((post) => post.id === route.params.id);
 
   useEffect(() => {
@@ -55,6 +55,7 @@ export default CommentsScreen = () => {
       avatar: photoURL,
       uid: post.uid,
       id: post.id,
+      userId: uid,
       creadetAt: date,
       formatedData: dateData,
     };
@@ -62,6 +63,23 @@ export default CommentsScreen = () => {
     addComment(data, post.id);
     setInputValue("");
   };
+
+  const renderItem = () =>
+    comments.map((item) => {
+      const userComment = item.userId === uid;
+      return (
+        <View key={item.id}>
+          <Comment
+            comment={item.comment}
+            avatar={item.avatar}
+            formatedData={item.formatedData}
+            isUserComment={userComment}
+          />
+        </View>
+      );
+    });
+  // renderItem();
+  // console.log(renderItem());
 
   return (
     <View style={{ backgroundColor: "#fff", flex: 1 }}>
@@ -78,22 +96,11 @@ export default CommentsScreen = () => {
               style={styles.image}
               height={240}
             />
-
-            <FlatList
-              style={{ height: "70%" }}
-              data={comments}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => {
-                return (
-                  <Comment
-                    comment={item.comment}
-                    avatar={item.avatar}
-                    formatedData={item.formatedData}
-                    userId={item.uid}
-                  />
-                );
-              }}
-            />
+            {comments && (
+              <SafeAreaView>
+                <ScrollView>{renderItem()}</ScrollView>
+              </SafeAreaView>
+            )}
             <View
               style={{
                 ...styles.inputContainer,
@@ -122,6 +129,22 @@ export default CommentsScreen = () => {
     </View>
   );
 };
+
+//  <FlatList
+//    style={{ height: "70%" }}
+//    data={comments}
+//    keyExtractor={(item) => item.id}
+//    renderItem={({ item }) => {
+//      return (
+//        <Comment
+//          comment={item.comment}
+//          avatar={item.avatar}
+//          formatedData={item.formatedData}
+//          userId={item.uid}
+//        />
+//      );
+//    }}
+//  />;
 
 const styles = StyleSheet.create({
   container: {

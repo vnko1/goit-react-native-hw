@@ -23,7 +23,7 @@ export default Post = ({ image, title, region, coords, id }) => {
 
       setValue(value);
     })();
-  }, [comments?.length]);
+  }, [comments]);
 
   return (
     <View style={styles.container}>
