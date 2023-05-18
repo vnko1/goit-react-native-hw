@@ -17,17 +17,23 @@
     ],
     "ios": {
       "supportsTablet": true,
-       "jsEngine": "jsc"
+      "jsEngine": "jsc"
     },
     "android": {
-       "jsEngine": "jsc",
+      "jsEngine": "jsc",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.vnko1.hw"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "278219d9-8cf4-412f-9f0b-c5a573a9c23b"
+      }
     }
   }
 }
