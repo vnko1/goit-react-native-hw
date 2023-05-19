@@ -74,11 +74,11 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   userInfoText: {
-    fontWeight: "700",
+    fontWeight: 700,
     fontSize: 13,
   },
   userInfoMail: {
-    fontWeight: "400",
+    fontWeight: 400,
     fontSize: 11,
   },
 });
