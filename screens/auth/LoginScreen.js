@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     marginTop: 92,
     marginBottom: 32,
     fontFamily: "Roboto-Medium",
-    fontWeight: 500,
+
     fontSize: 30,
     lineHeight: 35,
     letterSpacing: 0.01,
